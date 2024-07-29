@@ -2,7 +2,9 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
-
+#include <string>
+#include <unordered_set>
+ 
 // problem 1. Two Sum
 std::vector<int> twoSum(std::vector<int>& nums, int target) {
     std::vector<int> results;
@@ -98,6 +100,37 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
 
 }
 
+/* Problem 3 longest-substring-without-repeating-characters
+ */
+int lengthOfLongestSubstring(std::string s) {
+    if (s.length() == 0 || s.length() == 1) {
+        return s.length();
+    }
+    int maxLen = 1;
+    // std::string tmpStr = s.substr(0, 1);
+    int length = s.length();
+    int left = 0, right;
+    // std::unordered_map<char, int> hashMap;
+    std::unordered_set<char> substrSet;
+    substrSet.insert(s[left]);
+    for (right = 1; right < length; right++) {
+        if (substrSet.count(s[right]) == 0) {
+            substrSet.insert(s[right]);
+            maxLen = (maxLen > (right - left + 1)) ? maxLen : (right - left + 1);
+        } else {
+            while(substrSet.count(s[right]) != 0) {
+                substrSet.erase(s[left]);
+                left++;
+            }
+            substrSet.insert(s[right]);
+        }
+    }
+
+    return maxLen;
+
+}
+
+/* Problem 4. the median of the two sorted arrays */
 int main()
 {
     std::cout << "Testing Two Sum:" << std::endl;
@@ -137,5 +170,11 @@ int main()
         result = result->next;
         std::cout << result->val << " ";
     }
+    std::cout << std::endl;
+
+    std::cout << "Testing 3. longest substring without repeating characters: " << std::endl;
+    std::string str = "abcabcbb";
+    std::cout << "Max len of \"abcabcbb\" : " << lengthOfLongestSubstring(str) << std::endl;
+
     return 0;
 }
