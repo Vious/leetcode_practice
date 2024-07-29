@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <string>
 #include <unordered_set>
+#include <cmath>
  
 // problem 1. Two Sum
 std::vector<int> twoSum(std::vector<int>& nums, int target) {
@@ -100,7 +101,7 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
 
 }
 
-/* Problem 3 longest-substring-without-repeating-characters
+/* Problem 3. longest-substring-without-repeating-characters
  */
 int lengthOfLongestSubstring(std::string s) {
     if (s.length() == 0 || s.length() == 1) {
@@ -130,7 +131,73 @@ int lengthOfLongestSubstring(std::string s) {
 
 }
 
-/* Problem 4. the median of the two sorted arrays */
+/* Problem 4. Median of Two Sorted Arrays */
+double findMedianSortedArrays(std::vector<int>& nums1, std::vector<int>& nums2) {
+    int size1 = nums1.size(), size2 = nums2.size();
+    // vector empty check
+    if (size1 == 0) {
+        if (size2 == 0) {
+            return 0.0;
+        } else {
+            // check even or odd
+            return (size2 % 2) == 0 ? ((double)nums2[size2 / 2] + nums2[size2 / 2 - 1]) / 2 : (double) nums2[size2 / 2];
+        }
+    } else {
+        if (size2 == 0) {
+            return (size1 % 2) == 0 ? ((double)nums1[size1 / 2] + nums1[size1 / 2 - 1]) / 2 : (double) nums1[size1 / 2];
+        }
+    }
+    bool evenFlag = ((size1 + size2) % 2 ) == 0;
+    double res = 0.0;
+    // check for general cases, using binary search
+    if (size1 > size2) {
+        int indexLeft = 0,  indexR= size2;
+        int  midNum = (size1 + size2 + 1) / 2;
+        while (indexLeft <= indexR) {
+             int mid = (indexLeft + indexR) / 2;
+             int gap = midNum - mid;
+             int left1 = (mid > 0) ? nums2[mid - 1] : INT32_MIN; // in nums2
+             int left2 = (gap > 0) ? nums1[gap - 1] : INT32_MIN; // in nums1
+             int right1 = (mid < size2) ? nums2[mid] : INT32_MAX;
+             int right2 = (gap < size1) ? nums1[gap] : INT32_MAX;
+
+             if (left1 <= right2 && left2 <= right1) {
+                return evenFlag ? ((double)std::max(left1, left2) + std::min(right1, right2)) / 2.0 : std::max(left1, left2);
+             } else if (left1 > right2) {
+                indexR = mid - 1;
+             } else {
+                indexLeft = mid + 1;
+             }
+
+        }
+    } else {
+        int indexLeft = 0,  indexR= size1;
+        int  midNum = (size1 + size2 + 1) / 2;
+        while (indexLeft <= indexR) {
+             int mid = (indexLeft + indexR) / 2;
+             int gap = midNum - mid;
+             int left1 = (mid > 0) ? nums1[mid - 1] : INT32_MIN; // in nums1
+             int left2 = (gap > 0) ? nums2[gap - 1] : INT32_MIN; // in nums2
+             int right1 = (mid < size1) ? nums1[mid] : INT32_MAX;
+             int right2 = (gap < size2) ? nums2[gap] : INT32_MAX;
+
+             if (left1 <= right2 && left2 <= right1) {
+                return evenFlag ? ((double)std::max(left1, left2) + std::min(right1, right2)) / 2.0 : std::max(left1, left2);
+             } else if (left1 > right2) {
+                indexR = mid - 1;
+             } else {
+                indexLeft = mid + 1;
+             }
+
+        }
+
+    }
+
+    return res;
+}
+
+/* Problem 5. */
+
 int main()
 {
     std::cout << "Testing Two Sum:" << std::endl;
@@ -153,9 +220,6 @@ int main()
     std::cout << std::endl;
 
     std::cout << "Testing 2. Add Two Numbers:" << std::endl;
-    // ListNode *l1, *l2;
-    // ListNode *result = addTwoNumbers(l1, l2);
-    // std::cout << 10 / 10 << std::endl;
     ListNode *l1 = new ListNode(2);
     l1->next = new ListNode(4);
     l1->next->next = new ListNode(3);
@@ -175,6 +239,15 @@ int main()
     std::cout << "Testing 3. longest substring without repeating characters: " << std::endl;
     std::string str = "abcabcbb";
     std::cout << "Max len of \"abcabcbb\" : " << lengthOfLongestSubstring(str) << std::endl;
+
+    std::cout << "Test 4. median of the two sorted arrays: " << std::endl;
+    std::vector<int> nums1 = {2, 3, 4};
+    std::vector<int> nums2 = {1};
+    // nums2.push_back(3);
+    // nums2.push_back(4);
+
+    std::cout << "Median is: " << findMedianSortedArrays(nums1, nums2) << std::endl;
+
 
     return 0;
 }
