@@ -35,10 +35,10 @@ int reverse(int x) {
     int res = 0;
     while(x) {
         int decimalDig = x % 10;
-        res = res * 10 + decimalDig;
-        if (res > INT32_MAX || res < INT32_MIN) {
+        if (res > INT32_MAX / 10 || res < INT32_MIN / 10) {
             return 0;
         }
+        res = res * 10 + decimalDig;
         x /= 10;
     }
     return res;
