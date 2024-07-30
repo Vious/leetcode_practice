@@ -30,9 +30,27 @@ std::string convert(std::string s, int numRows) {
     return results;
 }
 
+/* Problem 7. Reverse Integer */
+int reverse(int x) {
+    int res = 0;
+    while(x) {
+        int decimalDig = x % 10;
+        res = res * 10 + decimalDig;
+        if (res > INT32_MAX || res < INT32_MIN) {
+            return 0;
+        }
+        x /= 10;
+    }
+    return res;
+}
+
 int main() 
 {
     std::cout << "Testing for Problem 6. Zigzag Conversion: " << std::endl;
     std::cout << "Testing \"PAYPALISHIRING\" of 3 rows: " << convert("PAYPALISHIRING", 3) << std::endl; 
+
+    std::cout << "Testing for Problem 7. Reverse Integer: " << std::endl;
+    std::cout << "123: " << reverse(123) << " -123: " << reverse(-123) << " 120:" << reverse(120) << std::endl;
+
     return 0;
 }
