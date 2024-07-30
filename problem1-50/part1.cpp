@@ -196,7 +196,44 @@ double findMedianSortedArrays(std::vector<int>& nums1, std::vector<int>& nums2) 
     return res;
 }
 
-/* Problem 5. */
+/* Problem 5. Longest Palindromic Substring */
+std::string longestPalindrome(std::string s) {
+    int size = s.size();
+    if (size <= 1) {
+        return s;
+    } 
+
+    int lenNoMiddle = 0;
+    int lenWithMiddle = 0;
+    int startIdx = 0, endIdx = 0;
+    for (int i = 0; i < size; i++) {
+        // check for pattern like "bab", with central character
+        int left = i, right = i;
+        while(left >= 0 && right <= size - 1 && s[left] == s[right]) {
+            left--;
+            right++;
+        }
+        lenWithMiddle = right - left - 1; // to be more precise, right - left + 1 - 2
+        if (lenWithMiddle > endIdx - startIdx + 1) {
+            startIdx = left + 1;
+            endIdx = right - 1;
+        }
+
+        // check for pattern like "baab", no central character
+        left = i, right = i + 1;
+        while(left >= 0 && right <= size - 1 && s[left] == s[right]) {
+            left--;
+            right++;
+        }
+        lenNoMiddle = right - left - 1;
+        if (lenNoMiddle > endIdx - startIdx + 1) {
+            startIdx = left + 1;
+            endIdx = right - 1;
+        }
+    }
+
+    return s.substr(startIdx, endIdx - startIdx + 1);
+}
 
 int main()
 {
@@ -247,6 +284,14 @@ int main()
     // nums2.push_back(4);
 
     std::cout << "Median is: " << findMedianSortedArrays(nums1, nums2) << std::endl;
+
+    std::cout << "Test 5. Longest Palindromic Substring: " << std::endl;
+    std::string str1 = "babad", str2 = "cbbd";
+
+    std::cout << "Longest Palindromic Substring " << "of " << str1 << " is: " << longestPalindrome(str1) << std::endl;
+    std::cout << "Longest Palindromic Substring " << "of " << str2 << " is: " << longestPalindrome(str2) << std::endl;
+
+    std::cout << "Longest Palindromic Substring " << "of aaaaaaaa"  << " is: " << longestPalindrome("aaaaaaaa") << std::endl;
 
 
     return 0;
