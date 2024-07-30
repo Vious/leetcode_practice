@@ -27,5 +27,5 @@ For problem 5 (Longest Palindromic Substring), a classical solution would be dyn
 ## Part2
 Part2 marks the code for Problem 6. (Zigzag Conversion) to problem ...
 
-For P6. (Zigzag Conversion), write the index of each zigzag converted string, assume the numrows = 1, we can find that the index goes from 0123210123... Therefore, I use map to map each character into specitic rows, and use iterator to combine them together.
+For P6. (Zigzag Conversion), write the index of each zigzag converted string, assume the numrows = 1, we can find that the index goes from 0123210123... Therefore, I use map to map each character into specitic rows, and use iterator to combine them together. Another solution would be directly assigning the char into specific index of zigzag converted results' string.
 
