@@ -65,21 +65,82 @@ int myAtoi(std::string s) {
         posSign = false;
         startIdx++;
     }
-    long long result = 0;
+    // long long result = 0;
+    // while(startIdx < size && isdigit(s[startIdx])) {
+    //     result = result * 10 + (s[startIdx] - '0');
+    //     if (result > INT32_MAX && posSign) {
+    //         return INT32_MAX;
+    //     }
+    //     // here should be -result < INT32_MIN
+    //     if (-result < INT32_MIN && !posSign) {
+    //         return INT32_MIN;
+    //     } 
+    //     startIdx++;
+    // }
+    // result = !posSign ? -result: result;
+    // return static_cast<int> (result);
+
+    // use only int type
+    int result = 0;
     while(startIdx < size && isdigit(s[startIdx])) {
-        result = result * 10 + (s[startIdx] - '0');
-        if (result > INT32_MAX && posSign) {
-            return INT32_MAX;
+        int digit = s[startIdx] - '0';
+        if (result > INT32_MAX/10 || (result == INT32_MAX/10 && digit > 7)) {
+            return posSign? INT32_MAX: INT32_MIN;
         }
-        // here should be -result < INT32_MIN
-        if (-result < INT32_MIN && !posSign) {
-            return INT32_MIN;
-        } 
+        result = result * 10 + digit;
         startIdx++;
     }
     result = !posSign ? -result: result;
-    return static_cast<int> (result);
+    return result;
 
+}
+
+/* Problem 9. Palindrome Number */
+bool isPalindrome(int x) {
+    if (x < 0) {
+        return false;
+    }
+    if (x < 10) {
+        return true;
+    }
+    /* solution 1, use vector to store digits */
+    // std::vector<int> digitsVector;
+    
+    // while (x) {
+    //     digitsVector.push_back(x % 10);
+    //     x /= 10;
+    // }
+    // int size = digitsVector.size();
+    // for (int i = 0; i < size/2 ; i++) {
+    //     if (digitsVector[i] != digitsVector[size - i - 1]) {
+    //         return false;
+    //     }
+    // }
+    // return true;
+
+    /* solution 2, do the reverse */
+    long long int original = x;
+    long long int reverse = 0;
+    while (original) {
+        reverse = reverse * 10 + original % 10;
+        original /= 10;
+    }
+    if (x == reverse) {
+        return true;
+    } else {
+        return false;
+    }
+
+    return true;
+}
+
+/* Problem 10. Regular Expression Matching */
+bool isMatch(std::string s, std::string p) {
+    if (p.empty()) {
+        return s.empty();
+    }
+    // first solution, recursive
+    
 }
 
 int main() 
@@ -96,6 +157,14 @@ int main()
     std::cout << "Testing " << "0-1 :" << myAtoi("0-1") << std::endl;
     std::cout << "Testing " << "   -042 :" << myAtoi("   -042") << std::endl;
     std::cout << "Testing " << "words and 987 :" << myAtoi("words and 987") << std::endl;
+    std::cout << "Testing " << " -91283472332:" << myAtoi("-91283472332") << std::endl;
     
+
+    std::cout << "Testing for Problem 9. Palindrome Number: " << std::endl;
+    std::cout << "Testing " << "121 :" << isPalindrome(121) << std::endl;
+    std::cout << "Testing " << "1221 :" << isPalindrome(1221) << std::endl;
+    std::cout << "Testing " << "-121 :" << isPalindrome(-121) << std::endl;
+    std::cout << "Testing " << "120 :" << isPalindrome(120) << std::endl;
+
     return 0;
 }

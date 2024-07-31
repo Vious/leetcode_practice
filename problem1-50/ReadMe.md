@@ -25,9 +25,16 @@ For problem 5 (Longest Palindromic Substring), a classical solution would be dyn
 
 
 ## Part2
-Part2 marks the code for Problem 6. (Zigzag Conversion) to Problem 7. (Reverse Integer)...
+Part2 marks the code for Problem 6. (Zigzag Conversion) to Problem 10. ().
 
 For P6. (Zigzag Conversion), write the index of each zigzag converted string, assume the numrows = 1, we can find that the index goes from 0123210123... Therefore, I use map to map each character into specitic rows, and use iterator to combine them together. Another solution would be directly assigning the char into specific index of zigzag converted results' string.
 
 For P7. (Reverse Integer), note that the system does not allow us to use 64-bits long integer.
 - One thing to note is that we may get runtime error, a trick to avoid is by checking the value > INT32_MAX / 10 or value < INT32_MIN / 10.
+
+For P8. (String to Integer (atoi)), there are several tiny bugs we would make.
+- Check overflow, the simple way is to declare long long int. But if we must use only int, we need to check whether the result is larger then INT32_MAX/10, when it equals INT32_MAX, the next integer must not be greater than 7. (INT32_MIN=-2147483648, and INT32_MAX=2147483647)
+
+For P9. (Palindrome Number), the brute-force solution, we can use vector to store each digit. Smarter way is to reverse the integer and check overflow (we can use long long int to avoid this).
+
+For P10. (Regular Expression Matching)
