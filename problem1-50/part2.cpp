@@ -157,11 +157,25 @@ bool isMatch(std::string s, std::string p) {
     dp[0][0] = true;
     /* several cases to deal with:
     dp[i][j] == true if following conditions hold:
-    1. if p[j - 1] != '*', then dp[i-1][j-1] == true && s[i - 1] matches p[j - 1]
-    2. 
+    - If p[j - 1] != '*', then dp[i-1][j-1] == true && s[i - 1] matches p[j - 1]
+    - If p[j - 1] == '*', then,
+    - 1. p[j-2] does not repeated and '*' should match empty character of s.
+    - 2. p[j-2] repeated many times.
      */
+    for (int j = 1; j <= n; j++) {
+        dp[0][j] = j > 1 && p[j - 1] == '*' && dp[0][j - 2];
+    }
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (p[j-1] != '*') {
+                dp[i][j] = dp[i-1][j-1] && (s[i-1]==p[j-1] || p[j-1] == '.');
+            } else {
+                dp[i][j] = dp[i][j-2] || (s[i-1] == p[j-2] || p[j-2] == '.') && dp[i-1][j];
+            }
+        }
+    }
 
-
+    return dp[m][n];
 }
 
 int main() 
