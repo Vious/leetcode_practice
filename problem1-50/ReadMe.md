@@ -25,7 +25,7 @@ For problem 5 (Longest Palindromic Substring), a classical solution would be dyn
 
 
 ## Part2
-Part2 marks the code for Problem 6. (Zigzag Conversion) to Problem 10. ().
+Part2 marks the solution code for Problem 6. (Zigzag Conversion) to Problem 10. (Regular Expression Matching).
 
 For P6. (Zigzag Conversion), write the index of each zigzag converted string, assume the numrows = 1, we can find that the index goes from 0123210123... Therefore, I use map to map each character into specitic rows, and use iterator to combine them together. Another solution would be directly assigning the char into specific index of zigzag converted results' string.
 
@@ -37,4 +37,13 @@ For P8. (String to Integer (atoi)), there are several tiny bugs we would make.
 
 For P9. (Palindrome Number), the brute-force solution, we can use vector to store each digit. Smarter way is to reverse the integer and check overflow (we can use long long int to avoid this).
 
-For P10. (Regular Expression Matching)
+For P10. (Regular Expression Matching), for the recursive solution, there are two main sub-problems,
+- We first check curMatch = !s.empty() && (s[0] == p[0] || p[0] == '.'), and if p[1] happens to be \*, then we need to check curMatch && isMatch(s.substr(1), p). It is the case that s[0] repeats many times until new character comes. Another case is just to match s and p.substr(2), which means that \* matches empty character in s.
+- For second case, simple, just s.substr(1) and p.substr(1).
+
+However, I found the above recursive method encounters "Time Limit Exceeded" for cases like "aaaaaaaaaaaaaaaaaaa", p = "a\*a\*a\*a\*a\*a\*a\*a\*a\*b", which means leetcode server cannot allow temporary stacking too many recursive functions. 
+
+So a quicker solution is to adopt dynamic programming by using loops. Let's use 2-dim bool vector dp[m+1][n+1] as example, if d[i][j] == true, the following conditions should hold:
+- If p[j - 1] != '*', then dp[i-1][j-1] == true && s[i - 1] matches p[j - 1]
+- If p[j - 1] == '*', then,
+- 1. 

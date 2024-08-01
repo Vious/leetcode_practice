@@ -139,8 +139,29 @@ bool isMatch(std::string s, std::string p) {
     if (p.empty()) {
         return s.empty();
     }
-    // first solution, recursive
-    
+    // /* first solution, recursive, might exceed time limits for leetcode server on case: s = "aaaaaaaaaaaaaaaaaaa", p = "a*a*a*a*a*a*a*a*a*b" or other similar cases */
+    // bool curMatch = (!s.empty() && (s[0] == p[0] || p[0] == '.'));
+    // int pLen = p.size();
+    // if (pLen >= 2 && p[1] == '*') {
+    //     return curMatch && isMatch(s.substr(1), p) \
+    //         || isMatch(s, p.substr(2));
+    // } else {
+    //     return (curMatch && isMatch(s.substr(1), p.substr(1)));
+    // }
+
+    // return false;
+    // second solution, DP
+    int m = s.size(), n = p.size();
+    // remember to initialize to false
+    std::vector<std::vector<bool>> dp(m + 1, std::vector<bool>(n + 1, false));
+    dp[0][0] = true;
+    /* several cases to deal with:
+    dp[i][j] == true if following conditions hold:
+    1. if p[j - 1] != '*', then dp[i-1][j-1] == true && s[i - 1] matches p[j - 1]
+    2. 
+     */
+
+
 }
 
 int main() 
@@ -165,6 +186,13 @@ int main()
     std::cout << "Testing " << "1221 :" << isPalindrome(1221) << std::endl;
     std::cout << "Testing " << "-121 :" << isPalindrome(-121) << std::endl;
     std::cout << "Testing " << "120 :" << isPalindrome(120) << std::endl;
+
+    std::cout << "Testing for Problem 10. Regular Expression Matching: " << std::endl;
+    std::cout << "Testing for s = \"aa\", p = \"a\" : " << isMatch("aa", "a")  << std::endl;
+    std::cout << "Testing for s = \"aa\", p = \".a\" : " << isMatch("aa", "a.")  << std::endl;
+    std::cout << "Testing for s = \"aa\", p = \"a*\" : " << isMatch("aa", "a*")  << std::endl;
+    std::cout << "Testing for s = \"aaaaaaaaaaaaaaaaaaa\", p = \"a*a*a*a*a*a*a*a*a*b\" : " << isMatch("aaaaaaaaaaaaaaaaaaa", "a*a*a*a*a*a*a*a*a*b")  << std::endl;
+
 
     return 0;
 }
