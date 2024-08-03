@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <unordered_map>
 
 /* Problem 11. (Container With Most Water) */
 int maxArea(std::vector<int>& height) {
@@ -52,6 +53,30 @@ std::string intToRoman(int num) {
     return results;
 }
 
+/* Problem 13. Roman to Integer*/
+static std::unordered_map<char, int> rom2IntMap = {
+    {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50},
+    {'C', 100}, {'D', 500}, {'M', 1000}
+};
+int romanToInt(std::string s){
+    int size = s.size();
+    int resultNum = 0;
+    for (int i = 0; i < size; i++) {
+        if (i < size - 1) {
+            if (rom2IntMap[s[i]] < rom2IntMap[s[i+1]]) {
+                resultNum += rom2IntMap[s[i+1]] - rom2IntMap[s[i]];
+                i++; // important!!!
+            } else {
+                resultNum += rom2IntMap[s[i]];
+            }
+        } else {
+            resultNum += rom2IntMap[s[i]];
+        }
+    }
+    return resultNum;
+}
+
+
 int main()
 {
     std::cout << "Testing for Problem 11. (Container With Most Water): " << std::endl;
@@ -59,6 +84,14 @@ int main()
     std::cout << "heights1 = {1,8,6,2,5,4,8,3,7}," << " maxArea: " << maxArea(heights1) << std::endl;
     std::vector<int> heights2 = {1,1};
     std::cout << "heights2 = {1,1}," << " maxArea: " << maxArea(heights2) << std::endl;
+
+    std::cout << "Testing for Problem 12. Integer to Roman: " << std::endl;
+    std::cout << "Input: 3749" << ", Expected: " << "MMMDCCXLIX" << " , Output: " << intToRoman(3749) << std::endl;
+
+    std::cout << "Testing for Problem 13. Roman to Integer: " << std::endl;
+
+    std::cout << "Input: MCMXCIV" << ", Expected: " << "1994" << " , Output: " << romanToInt("MCMXCIV") << std::endl;
+
 
     return 0;
 }
