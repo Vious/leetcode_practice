@@ -24,6 +24,34 @@ int maxArea(std::vector<int>& height) {
     return maxResult;
 }
 
+/* Problem 12. Integer to Roman */
+static std::vector<std::vector<std::string>> romansTable = {
+    {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"},
+    {"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"},
+    {"C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"},
+    {"M", "MM", "MMM"}
+};
+std::string intToRoman(int num) {
+    std::string results("");
+    // first solution, use the above roman number table
+    while(num) {
+        if (num >= 1000) {
+            results += romansTable[3][num / 1000 - 1];
+            num = num - (num / 1000) * 1000; 
+        } else if (num >= 100) {
+            results += romansTable[2][num / 100 - 1];
+            num = num - (num / 100) * 100;
+        } else if (num >= 10) {
+            results += romansTable[1][num / 10 - 1];
+            num = num - (num / 10) * 10;
+        } else if (num >= 1) {
+            results += romansTable[0][num - 1];
+            num = 0;
+        }
+    }
+    return results;
+}
+
 int main()
 {
     std::cout << "Testing for Problem 11. (Container With Most Water): " << std::endl;
