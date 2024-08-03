@@ -46,4 +46,14 @@ However, I found the above recursive method encounters "Time Limit Exceeded" for
 So a quicker solution is to adopt dynamic programming by using loops. Let's use 2-dim bool vector dp[m+1][n+1] as example, if d[i][j] == true, the following conditions should hold:
 - If p[j - 1] != '*', then dp[i-1][j-1] == true && s[i - 1] matches p[j - 1]
 - If p[j - 1] == '*', then,
-- 1. 
+- 1. p[j-2] does not repeated and '*' should match empty character of s.
+- 2. p[j-2] repeated many times.
+
+Some cases:
+- "mississippi" "mis*is*p*.", should be false.
+
+## Part 3
+
+Code for Problem 11. (Container With Most Water) to Problem 15. ()
+
+For Problem 11. (Container With Most Water), not difficult, use two pointers, O(N) time complexity. 
