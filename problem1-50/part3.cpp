@@ -76,6 +76,35 @@ int romanToInt(std::string s){
     return resultNum;
 }
 
+/* Problem 14. Longest Common Prefix*/
+std::string longestCommonPrefix(std::vector<std::string>& strs) {
+    int arrNumber = strs.size();
+    if (arrNumber == 0) return "";
+    std::string result = "";
+    int shortestNum = strs[0].size();
+    // find the shortest string size
+    for (int i = 1; i < arrNumber; i++) {
+        shortestNum = std::min(shortestNum, (int)strs[i].size());
+    }
+    bool flag;
+    for (int i = 0; i < shortestNum; i++) {
+        flag = true;
+        char tmpStr = strs[0][i];
+        for (int j = 1; j < arrNumber; j++) {
+            if (strs[j][i] != tmpStr) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            result += tmpStr;
+        } else {
+            break;
+        }
+    }
+    return result;
+
+}
 
 int main()
 {
@@ -89,9 +118,12 @@ int main()
     std::cout << "Input: 3749" << ", Expected: " << "MMMDCCXLIX" << " , Output: " << intToRoman(3749) << std::endl;
 
     std::cout << "Testing for Problem 13. Roman to Integer: " << std::endl;
-
     std::cout << "Input: MCMXCIV" << ", Expected: " << "1994" << " , Output: " << romanToInt("MCMXCIV") << std::endl;
 
+    std::cout << "Testing for Problem 14. Longest Common Prefix: " << std::endl;
+
+    std::vector<std::string> strs = {"flower","flow","flight"};
+    std::cout << "Common prefix: " << longestCommonPrefix(strs) << std::endl;
 
     return 0;
 }

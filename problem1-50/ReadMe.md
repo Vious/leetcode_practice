@@ -60,6 +60,8 @@ For Problem 11. (Container With Most Water), not difficult, use two pointers, O(
 
 For Problem 12. (Integer to Roman), I use a static roman number table.
 
-For Problem 13. Roman to Integer, a hashMap is used. 
+For Problem 13. (Roman to Integer), a hashMap is used. 
 - In the for loop, when dealing with cases s[i+1] > s[i], remember to add an additional 1 for the loop value i.
+
+For Problem 14. (Longest Common Prefix), try first finding the shortest str and use its size for the main loop.
 
