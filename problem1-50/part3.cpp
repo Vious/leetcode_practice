@@ -149,8 +149,8 @@ std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
             if (tmpSum == wanted) {
                 results.push_back({nums[i], nums[left], nums[right]});
                 left++;
-                right--;
                 while(nums[left] == nums[left-1] && left < right) left++;
+                right--;
                 while(nums[right] == nums[right+1] && right > left) right--;
             } else if (tmpSum > wanted) {
                 right--;
