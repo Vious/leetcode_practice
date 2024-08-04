@@ -67,3 +67,11 @@ For Problem 14. (Longest Common Prefix), try first finding the shortest str and 
 - One way to reduce the need of concatenating chars as did in my current (solution 1) code is to calculate the index.
 
 For Problem 15. (3Sum), one difficulty is not to contain duplicate triplets. I use two pointers here.
+
+
+## Part 4
+Code for Problem 16. (3Sum Closest) to Problem 20. ()
+
+For Problem 16. (3Sum Closest), the answer seems to be unique. 
+- Try ranges::sort() by C++-20
+
