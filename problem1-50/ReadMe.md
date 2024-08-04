@@ -54,7 +54,7 @@ Some cases:
 
 ## Part 3
 
-Code for Problem 11. (Container With Most Water) to Problem 15. ()
+Code for Problem 11. (Container With Most Water) to Problem 15. (3Sum).
 
 For Problem 11. (Container With Most Water), not difficult, use two pointers, O(N) time complexity. 
 
@@ -64,4 +64,6 @@ For Problem 13. (Roman to Integer), a hashMap is used.
 - In the for loop, when dealing with cases s[i+1] > s[i], remember to add an additional 1 for the loop value i.
 
 For Problem 14. (Longest Common Prefix), try first finding the shortest str and use its size for the main loop.
+- One way to reduce the need of concatenating chars as did in my current (solution 1) code is to calculate the index.
 
+For Problem 15. (3Sum), one difficulty is not to contain duplicate triplets. I use two pointers here.

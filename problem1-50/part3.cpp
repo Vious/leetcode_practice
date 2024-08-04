@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <unordered_map>
+#include <algorithm>
 
 /* Problem 11. (Container With Most Water) */
 int maxArea(std::vector<int>& height) {
@@ -80,14 +81,15 @@ int romanToInt(std::string s){
 std::string longestCommonPrefix(std::vector<std::string>& strs) {
     int arrNumber = strs.size();
     if (arrNumber == 0) return "";
-    std::string result = "";
+    // std::string result = ""; used by solution 1
     int shortestNum = strs[0].size();
     // find the shortest string size
     for (int i = 1; i < arrNumber; i++) {
         shortestNum = std::min(shortestNum, (int)strs[i].size());
     }
     bool flag;
-    for (int i = 0; i < shortestNum; i++) {
+    // solution 1
+/*     for (int i = 0; i < shortestNum; i++) {
         flag = true;
         char tmpStr = strs[0][i];
         for (int j = 1; j < arrNumber; j++) {
@@ -103,7 +105,62 @@ std::string longestCommonPrefix(std::vector<std::string>& strs) {
         }
     }
     return result;
+ */    
+    // solution 2:
+    int endIdx = -1;
+    for (int i = 0; i < shortestNum; i++) {
+        flag = true;
+        char tmpStr = strs[0][i];
+        for (int j = 1; j < arrNumber; j++) {
+            if (strs[j][i] != tmpStr) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            endIdx++;
+        } else {
+            break;
+        }
+    }
+    return endIdx >= 0 ? strs[0].substr(0, endIdx + 1) : "";
+}
 
+/* Problem 15. 3Sum */
+std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
+    int size = nums.size();
+    if (size == 3) {
+        if (nums[0] + nums[1] + nums[2] == 0) {
+            return {{nums[0], nums[1], nums[2]}};
+        } else {
+            return {};
+        }
+    }
+    std::sort(nums.begin(), nums.end());
+    std::vector<std::vector<int>> results;
+    int left, right;
+    for (int i = 0; i < size - 2; i++) {
+        left = i;
+        right = size - 1;
+        int wanted = -nums[i];
+        while(left < right) {
+            if (i != 0 && nums[i] == nums[i-1]) break;
+            int tmpSum = nums[left] + nums[right];
+            if (tmpSum == wanted) {
+                results.push_back({nums[i], nums[left], nums[right]});
+                left++;
+                right--;
+                while(nums[left] == nums[left-1] && left < right) left++;
+                while(nums[right] == nums[right+1] && right > left) right--;
+            } else if (tmpSum > wanted) {
+                right--;
+            } else {
+                left++;
+            }
+        }
+    }
+    
+    return results;
 }
 
 int main()
@@ -124,6 +181,11 @@ int main()
 
     std::vector<std::string> strs = {"flower","flow","flight"};
     std::cout << "Common prefix: " << longestCommonPrefix(strs) << std::endl;
+
+    std::cout << "Testing for Problem 15. 3Sum: " << std::endl;
+    std::vector<int> case1 = {-1,0,1,2,-1,-4};
+    threeSum(case1);
+
 
     return 0;
 }
