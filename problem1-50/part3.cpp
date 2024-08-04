@@ -140,11 +140,12 @@ std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
     std::vector<std::vector<int>> results;
     int left, right;
     for (int i = 0; i < size - 2; i++) {
-        left = i;
+        if (i != 0 && nums[i] == nums[i-1]) continue;
+
+        left = i + 1;
         right = size - 1;
         int wanted = -nums[i];
         while(left < right) {
-            if (i != 0 && nums[i] == nums[i-1]) break;
             int tmpSum = nums[left] + nums[right];
             if (tmpSum == wanted) {
                 results.push_back({nums[i], nums[left], nums[right]});
@@ -183,9 +184,13 @@ int main()
     std::cout << "Common prefix: " << longestCommonPrefix(strs) << std::endl;
 
     std::cout << "Testing for Problem 15. 3Sum: " << std::endl;
-    std::vector<int> case1 = {-1,0,1,2,-1,-4};
-    threeSum(case1);
-
+    std::vector<int> case1 = {1,2,-2,-1};
+    std::vector<std::vector<int>> res = threeSum(case1);
+    for (auto &vec : res) {
+        for (auto ele :vec ) {
+            std::cout << ele << " " << std::endl;
+        }
+    }
 
     return 0;
 }
