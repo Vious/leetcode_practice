@@ -76,3 +76,7 @@ For Problem 16. (3Sum Closest), the answer seems to be unique.
 - Try ranges::sort() by C++-20
 
 For Problem 17. (Letter Combinations of a Phone Number), good practice for backtracing algorithms, both backtracing and iterative methods are implemented.
+
+For Problem 18. (4Sum), some notations.
+- Check overflow. (Use long long int for sum or subtraction to computed wanted value.)
+- Deal with duplicates. 

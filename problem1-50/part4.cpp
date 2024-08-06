@@ -66,9 +66,7 @@ std::vector<std::string> letterCombinations(std::string digits) {
         std::vector<std::string> results;
         int idx = digits[0] - '2';
         for (int i = 0; i < strTable[idx].size(); i++) {
-            std::string tmpCh = "";
-            tmpCh = strTable[idx][i];
-            results.push_back(tmpCh);
+            results.push_back(strTable[idx].substr(i, 0));
         }
         return results;
     }
@@ -91,6 +89,57 @@ std::vector<std::string> letterCombinations(std::string digits) {
     return results;
 }
 
+/* Problem 18. 4Sum */
+std::vector<std::vector<int>> fourSum(std::vector<int>& nums, int target) {
+    int size = nums.size();
+    if (size < 4) {
+        return {};
+    }
+    if (size == 4) {
+        if ((nums[0]+nums[1]+nums[2]+nums[3]) == target) {
+            return {{nums[0], nums[1], nums[2], nums[3]}};
+        } else {
+            return {};
+        }
+    }
+    // std::ranges::sort(nums);
+    std::sort(nums.begin(), nums.end());
+    if ((nums[0]+nums[1]+nums[2]+nums[3]) > target) {
+        return {};
+    } else if ((nums[size-1]+nums[size-2]+nums[size-3]+nums[size-4]) < target) {
+        return {};
+    }
+    std::vector<std::vector<int>> results;
+    for (int i = 0; i < size - 3; i++) {
+        if (i > 0 && nums[i] == nums[i-1]) continue;
+        int wanted1 = target - nums[i];
+        for (int j = i + 1; j < size - 2; j++) {
+            // important!!! check j > i + 1
+            if (j > i+1 && nums[j] == nums[j-1]) continue;
+            int left = j + 1;
+            int right = size - 1;
+            int wanted2 = wanted1 - nums[j];
+            while(left < right) {
+                int tmpSum = nums[left] + nums[right];
+                if (tmpSum == wanted2) {
+                    results.push_back({nums[i], nums[j], nums[left], nums[right]});
+                    left++;
+                    while(nums[left] == nums[left-1] && left < right) left++;
+                    right--;
+                    while(nums[right] == nums[right+1] && right > left) right--;
+                } else if (tmpSum > wanted2) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+        }
+    }
+    
+    return results;
+
+}
+
 int main()
 {
     std::cout << "Testing for Problem 16. 3Sum Closest: " << std::endl;
@@ -104,6 +153,26 @@ int main()
         std::cout << str << " ";
     }
     std::cout << std::endl;
+
+    std::cout << "Testing for Problem 18. 4Sum: " << std::endl;
+    std::vector<int> testCase1P18 = {-2,-1,-1,1,1,2,2};
+    std::vector<int> testCase2P18 = {2,0,3,0,1,2,4};
+    auto results = fourSum(testCase1P18, 0);
+    for (auto res : results) {
+        std::cout << "Results: ";
+        for (auto ele : res) {
+            std::cout << ele << " ";
+        }
+        std::cout << "\n";
+    }
+    auto results2 = fourSum(testCase2P18, 7);
+    for (auto res : results2) {
+        std::cout << "Results: ";
+        for (auto ele : res) {
+            std::cout << ele << " ";
+        }
+        std::cout << "\n";
+    }
 
     return 0;
 }
