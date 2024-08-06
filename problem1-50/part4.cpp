@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cmath>
 #include <ranges>
+#include <stack>
+#include <unordered_map>
 
 /* Problem 16. 3Sum Closest */
 int threeSumClosest(std::vector<int>& nums, int target) {
@@ -140,6 +142,65 @@ std::vector<std::vector<int>> fourSum(std::vector<int>& nums, int target) {
 
 }
 
+/* Problem 19. Remove Nth Node From End of List */
+/**
+ * Definition for singly-linked list. */
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    if (n == 1 && head->next == nullptr) {
+        head = nullptr;
+        return head;
+    }
+    ListNode *pivot = head, *end = head;
+    int len = 1;
+    while(end->next != nullptr) {
+        end = end->next;
+        len++;
+    }
+    if (n == len){
+        head = head->next;
+        return head;
+    } else {
+        int forwardNumber = len - n - 1;
+        for (int i = 0; i < forwardNumber; i++) {
+            pivot = pivot->next;
+        }
+        pivot->next = pivot->next->next;
+
+    }
+    return head;
+}
+
+/* Problem 20. Valid Parentheses */
+static std::unordered_map<char, char> pthTable = {
+    {')', '('}, {']', '['}, {'}', '{'}
+};
+bool isValid(std::string s) {
+    int size = s.size();
+    if (size % 2 != 0) {
+        return false;
+    } 
+    if (size == 0) {
+        return false;
+    }
+    std::stack<char> stack;
+    for (int i = 0; i < size; i++) {
+        if (!stack.empty() && pthTable[s[i]] == stack.top()) {
+            stack.pop();
+        } else {
+            stack.push(s[i]);
+        }
+    }
+
+    return stack.empty();
+}
+
 int main()
 {
     std::cout << "Testing for Problem 16. 3Sum Closest: " << std::endl;
@@ -174,5 +235,18 @@ int main()
         std::cout << "\n";
     }
 
+    std::cout << "Testing for Problem 19. Remove Nth Node From End of List: " << std::endl;
+    ListNode *head = new ListNode(1);
+    head->next = new ListNode(2);
+    head = removeNthFromEnd(head, 1);
+    while(head) {
+        std::cout << head->val << " ";
+        head = head->next;
+    }
+    std::cout << std::endl;
+
+    std::cout << "Testing for Problem 20. Valid Parentheses: " << std::endl;
+    std::cout << "Test case: ([}}])" << " , Output: " << isValid("([}}])") << std::endl;
+    
     return 0;
 }

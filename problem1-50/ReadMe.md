@@ -78,5 +78,10 @@ For Problem 16. (3Sum Closest), the answer seems to be unique.
 For Problem 17. (Letter Combinations of a Phone Number), good practice for backtracing algorithms, both backtracing and iterative methods are implemented.
 
 For Problem 18. (4Sum), some notations.
-- Check overflow. (Use long long int for sum or subtraction to computed wanted value.)
+- Check overflow. (Use long long int for sum or subtraction to compute wanted values.)
 - Deal with duplicates. 
+
+For Problem 19. (Remove Nth Node From End of List), I use two pointers, with one goes to the end to count the length.
+
+Problem 20. (Valid Parentheses), simple practice of stack.
+- Take care of the order of push and pop logics.
