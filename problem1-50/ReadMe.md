@@ -70,7 +70,7 @@ For Problem 15. (3Sum), one difficulty is not to contain duplicate triplets. I u
 
 
 ## Part 4
-Code for Problem 16. (3Sum Closest) to Problem 20. ()
+Code for Problem 16. (3Sum Closest) to Problem 20. (Valid Parentheses)
 
 For Problem 16. (3Sum Closest), the answer seems to be unique. 
 - Try ranges::sort() by C++-20
@@ -82,6 +82,12 @@ For Problem 18. (4Sum), some notations.
 - Deal with duplicates. 
 
 For Problem 19. (Remove Nth Node From End of List), I use two pointers, with one goes to the end to count the length.
+- Take care of last pointer, if you use *end = head, and then end goes to the last node. Simply set end = nullptr actually does $\color{red}{\text{NOT}}$ change the last node to nullptr, you just set end to nullptr. A right way to do is find its previous, and set its next to nullptr.
 
 Problem 20. (Valid Parentheses), simple practice of stack.
 - Take care of the order of push and pop logics.
+
+## Part 5
+Code for Problem 21. (Merge Two Sorted Lists) to Problem 
+
+For Problem 21. (Merge Two Sorted Lists), avoid for circular linked lists.
