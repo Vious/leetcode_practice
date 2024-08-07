@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 /* Problem 21. Merge Two Sorted Lists */
 /**
@@ -43,7 +44,31 @@ ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
     return head;
 }
 
-/*  */
+/* 22. Generate Parentheses */
+void backtraceParenthesis(std::vector<std::string> &curResults, std::string tmpStr, int leftNumber, int rightNumber) {
+    if (rightNumber == 0) {
+        curResults.push_back(tmpStr);
+        return;
+    } else {
+        if (leftNumber > 0) {
+            backtraceParenthesis(curResults, tmpStr + "(", leftNumber - 1, rightNumber);
+            if (rightNumber > leftNumber) {
+                backtraceParenthesis(curResults, tmpStr + ")", leftNumber, rightNumber - 1);
+            }
+        } else {
+            backtraceParenthesis(curResults, tmpStr + ")", 0, rightNumber-1);
+        }
+    }
+}
+std::vector<std::string> generateParenthesis(int n) {
+    if (n < 1) {
+        return {};
+    }
+    std::vector<std::string> results;
+    //solution 1, backtracing
+    backtraceParenthesis(results, "(", n - 1, n);
+    return results;
+}
 
 
 int main()
@@ -64,5 +89,15 @@ int main()
         res = res->next;
     }
     std::cout << std::endl;
+
+    std::cout << "Testing for Problem 22. Generate Parentheses: " << std::endl;
+    std::cout << "Input n = 3: ";
+
+    std::vector<std::string> results = generateParenthesis(4);
+    for (auto str : results) {
+        std::cout << str << ",";
+    }
+    std::cout << std::endl;
+
     return 0;
 }
