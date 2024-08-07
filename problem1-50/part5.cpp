@@ -92,7 +92,21 @@ std::vector<std::string> dpCodeForGenerateParenthesis(int n) {
 
 }
 
-/*  */
+/* 23. Merge k Sorted Lists */
+ListNode* mergeKLists(std::vector<ListNode*>& lists) {
+    int size = lists.size();
+    if (size < 0) {
+        return nullptr;
+    } else if (size == 1) {
+        return lists[0];
+    }
+    // solution 1 simply adopt brute-force, merge one by one.
+    ListNode *head = nullptr;
+    for (int i = 0; i < size; i++) {
+        head = mergeTwoLists(head, lists[i]);
+    }
+    return head;
+}
 
 int main()
 {
