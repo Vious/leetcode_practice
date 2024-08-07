@@ -47,7 +47,7 @@ ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
 /* 22. Generate Parentheses */
 void backtraceParenthesis(std::vector<std::string> &curResults, std::string tmpStr, int leftNumber, int rightNumber) {
     if (rightNumber == 0) {
-        curResults.push_back(tmpStr);
+        curResults.emplace_back(tmpStr);
         return;
     } else {
         if (leftNumber > 0) {
@@ -60,16 +60,39 @@ void backtraceParenthesis(std::vector<std::string> &curResults, std::string tmpS
         }
     }
 }
+//solution 1, backtracing
 std::vector<std::string> generateParenthesis(int n) {
     if (n < 1) {
         return {};
-    }
+    } 
     std::vector<std::string> results;
-    //solution 1, backtracing
     backtraceParenthesis(results, "(", n - 1, n);
     return results;
 }
+//solution 2, dynamic programming
+std::vector<std::string> dpCodeForGenerateParenthesis(int n) {
+    if (n < 1) {
+        return {};
+    }
+    std::vector<std::vector<std::string>> dpResults(n+1);
+    dpResults[0].push_back("");
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j < i; j++) {
+            std::vector<std::string> tmpStrs;
+            for (auto str : dpResults[j]) {
+                for (auto previous : dpResults[i - j - 1]) {
+                    tmpStrs.emplace_back("(" + str + ")" + previous);
+                }
+            }
+            dpResults[i].insert(dpResults[i].end(), tmpStrs.begin(), tmpStrs.end());
+        }
+    }
 
+    return dpResults[n];
+
+}
+
+/*  */
 
 int main()
 {

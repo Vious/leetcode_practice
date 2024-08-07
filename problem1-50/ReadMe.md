@@ -91,3 +91,7 @@ Problem 20. (Valid Parentheses), simple practice of stack.
 Code for Problem 21. (Merge Two Sorted Lists) to Problem 
 
 For Problem 21. (Merge Two Sorted Lists), avoid for circular linked lists.
+
+For Problem 22. (Generate Parentheses), I implement two solutions.
+- Backtracing, which needs to take care of the number of left and right brackets in the recursive function.
+- Dynamic programming. First initialize n+1 empty vectors, and then set dp[0] as only "" starting string. Adding parens into previous results.
