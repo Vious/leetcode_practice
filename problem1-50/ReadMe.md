@@ -97,3 +97,6 @@ For Problem 22. (Generate Parentheses), I implement two solutions.
 - Dynamic programming. First initialize n+1 empty vectors, and then set dp[0] as only "" starting string. Adding parens into previous results.
 ![Alt text](./images/image1_886b4ee203.png "a title")
 
+For Problem 23. (Merge k Sorted Lists), basically two kinds of solutions.
+- Brute-force, implement the mergeTwo and then merge the lists one by one.
+- Adopt prirority queue (heap). 

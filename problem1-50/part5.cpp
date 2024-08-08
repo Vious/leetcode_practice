@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 
 /* Problem 21. Merge Two Sorted Lists */
 /**
@@ -100,12 +101,42 @@ ListNode* mergeKLists(std::vector<ListNode*>& lists) {
     } else if (size == 1) {
         return lists[0];
     }
-    // solution 1 simply adopt brute-force, merge one by one.
-    ListNode *head = nullptr;
-    for (int i = 0; i < size; i++) {
-        head = mergeTwoLists(head, lists[i]);
+    // solution 1, simply adopt the brute-force way, merge one by one.
+    // ListNode *head = nullptr;
+    // for (int i = 0; i < size; i++) {
+    //     head = mergeTwoLists(head, lists[i]);
+    // }
+    // return head;
+    
+    //solution 2, use heap, priority queue
+    auto compNode = [&](ListNode *l1, ListNode *l2) {
+        return l1->val > l2->val;
+    };
+    std::priority_queue<ListNode*, std::vector<ListNode*>, decltype(compNode)> priorQueue(compNode);
+    for (int i = 0; i < lists.size(); i++) {
+        if (lists[i] == nullptr) {
+            continue;
+        }
+        priorQueue.push(lists[i]);
     }
-    return head;
+    if (priorQueue.empty()) {
+        return nullptr;
+    }
+    ListNode *resultHead = new ListNode();
+    ListNode *pivot = resultHead;
+    ListNode *tmpPtr;
+    while(!priorQueue.empty()) {
+        tmpPtr = priorQueue.top();
+        priorQueue.pop();
+        pivot->next = tmpPtr;
+        pivot = pivot->next;
+        if(tmpPtr->next != nullptr) {
+            priorQueue.push(tmpPtr->next);
+        }
+    }
+    return resultHead->next;
+
+
 }
 
 int main()
