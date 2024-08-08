@@ -100,3 +100,5 @@ For Problem 22. (Generate Parentheses), I implement two solutions.
 For Problem 23. (Merge k Sorted Lists), basically two kinds of solutions.
 - Brute-force, implement the mergeTwo and then merge the lists one by one.
 - Adopt prirority queue (heap). 
+
+For Problem 24. (Swap Nodes in Pairs), pay attention to node lost and circular list.

@@ -139,6 +139,28 @@ ListNode* mergeKLists(std::vector<ListNode*>& lists) {
 
 }
 
+/* 24. Swap Nodes in Pairs */
+ListNode* swapPairs(ListNode* head) {
+    if (!head || !head->next) {
+        return head;
+    }
+    ListNode *left = head, *right = head->next;
+    left->next = right->next;
+    right->next = left;
+    ListNode *res = right;
+    ListNode *pivot;
+    while(left->next && left->next->next) {
+        pivot = left;
+        left = left->next;
+        right = left->next;
+        left->next = right->next;
+        right->next = left;
+        pivot->next = right;
+    }
+    return res;
+
+}
+
 int main()
 {
     std::cout << "Testing for Problem 21. Merge Two Sorted Lists: " << std::endl;
@@ -166,6 +188,9 @@ int main()
         std::cout << str << ",";
     }
     std::cout << std::endl;
+
+    // std::cout << "Testing for Problem 24. Swap Nodes in Pairs: " << std::endl;
+
 
     return 0;
 }
