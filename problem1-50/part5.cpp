@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <utility>
 
 /* Problem 21. Merge Two Sorted Lists */
 /**
@@ -161,6 +162,86 @@ ListNode* swapPairs(ListNode* head) {
 
 }
 
+/* 25. Reverse Nodes in k-Group */
+ListNode *simpleInverseListNode(ListNode *head) {
+    // this code just do the inverse of a given list.
+    if (!head || !head->next) {
+        return head;
+    }
+
+    ListNode *pivot = head;
+    ListNode *left = pivot, *right = pivot->next;
+    ListNode *tmpPtr = nullptr;
+    left->next = nullptr;
+    pivot = right->next;
+    right->next = left;
+    tmpPtr = right;
+    while(pivot) {
+        left = pivot;
+        right = pivot->next;
+        left->next = tmpPtr;
+        if (right) {
+            pivot = right->next;
+            right->next = left;
+            tmpPtr = right;
+        } else {
+            break;
+        }
+    }
+    head = (right) ? right : left;
+    return head;
+}
+/* 25. Reverse Nodes in k-Group */
+// check whether the remaining node is larger than k or not
+ListNode *nextKthNode(ListNode *head, int k) {
+    int tmpCount = 1;
+    ListNode *tmpNode = head;
+    while(tmpNode) {
+        tmpNode = tmpNode->next;
+        tmpCount++;
+        if (tmpCount == k) {
+            break;
+        }
+    }
+    return tmpNode;
+}
+
+// reverse node from the given start node to end node
+std::pair<ListNode*, ListNode*> reverseList(ListNode *start, ListNode *end) {
+    ListNode *current = start;
+    ListNode *prev = end->next;
+    ListNode *tmpPtr = nullptr;
+    while(prev != end) {
+        tmpPtr = current->next;
+        current->next = prev;
+        prev = current;
+        current = tmpPtr;
+    }
+    return {end, start};
+}
+
+ListNode* reverseKGroup(ListNode* head, int k) {
+    if (!head || !head->next || k == 1) {
+        return head;
+    }
+    ListNode *tmpKthNode = nextKthNode(head, k);
+    if (!tmpKthNode) {return head;}
+    ListNode *ptrHead = new ListNode();
+    ptrHead->next = head;
+    ListNode *pivot = ptrHead;
+    while(tmpKthNode) {
+        ListNode *end = tmpKthNode;
+        auto reversed = reverseList(head, end);
+        pivot->next = reversed.first;
+        pivot = reversed.second;
+        head = reversed.second->next;
+        tmpKthNode = nextKthNode(head, k);
+    }
+
+
+    return ptrHead->next;
+}
+
 int main()
 {
     std::cout << "Testing for Problem 21. Merge Two Sorted Lists: " << std::endl;
@@ -191,6 +272,18 @@ int main()
 
     // std::cout << "Testing for Problem 24. Swap Nodes in Pairs: " << std::endl;
 
+    std::cout << "Testing for Problem 25. Reverse Nodes in k-Group: " << std::endl;
+    ListNode *list3 = new ListNode(1);
+    list3->next = new ListNode(3);
+    list3->next->next = new ListNode(4);
+    list3->next->next->next = new ListNode(5, new ListNode(6));
+    // auto reversed = reverseList(list3, list3->next->next->next);
+    ListNode *res2 = reverseKGroup(list3, 2);
+    while(res2) {
+        std::cout << res2->val << " ";
+        res2 = res2->next;
+    }
+    std::cout << std::endl;
 
     return 0;
 }

@@ -88,7 +88,7 @@ Problem 20. (Valid Parentheses), simple practice of stack.
 - Take care of the order of push and pop logics.
 
 ## Part 5
-Code for Problem 21. (Merge Two Sorted Lists) to Problem 
+Code for Problem 21. (Merge Two Sorted Lists) to Problem 25. (Reverse Nodes in k-Group).
 
 For Problem 21. (Merge Two Sorted Lists), avoid for circular linked lists.
 
@@ -102,3 +102,5 @@ For Problem 23. (Merge k Sorted Lists), basically two kinds of solutions.
 - Adopt prirority queue (heap). 
 
 For Problem 24. (Swap Nodes in Pairs), pay attention to node lost and circular list.
+
+For Problem 25. (Reverse Nodes in k-Group), a more complex version of reversing the linked list.
