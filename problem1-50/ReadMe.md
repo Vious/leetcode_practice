@@ -108,5 +108,8 @@ For Problem 25. (Reverse Nodes in k-Group), a more complex version of reversing 
 ## Part 6
 My solution code for Problem 26. (Remove Duplicates from Sorted Array) to Problem
 
-For P26, check corner cases like {1,1,2,3}.
+For Problem 26. (Remove Duplicates from Sorted Array), check corner cases like {1,1,2,3}.
 
+For Problem 27. (Remove Element), similar to Problem 26.
+
+For Problem 28. (Find the Index of the First Occurrence in a String), use for loop with substr(i,...) or simply calling find() function.

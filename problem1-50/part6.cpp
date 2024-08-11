@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 
 /* 26. Remove Duplicates from Sorted Array */
 int removeDuplicates(std::vector<int>& nums) {
@@ -37,7 +38,34 @@ int removeDuplicates(std::vector<int>& nums) {
     return uniqueNum;
 }
 
+/* 27. Remove Element */
+int removeElement(std::vector<int>& nums, int val) {
+    int size = nums.size();
+    if (size == 0 || (size == 1 && nums[0] == val)) {
+        return 0;
+    } 
+    int rmIdx = 0;
+    for (int i = 0; i < size; i++) {
+        if (nums[i] != val) {
+            nums[rmIdx] = nums[i];
+            rmIdx++;
+        }
+    }
 
+    return rmIdx;
+}
+
+ /* 28. Find the Index of the First Occurrence in a String */
+int strStr(std::string haystack, std::string needle) {
+    int size1 = haystack.size(), size2 = needle.size();
+    if (size2 > size1 || size1 == 0) {
+        return -1;
+    }
+    auto idx = haystack.find(needle);
+    return idx != std::string::npos ? idx : -1;
+}
+
+/* 29. Divide Two Integers */
 
 int main()
 {
@@ -50,7 +78,17 @@ int main()
     }
     std::cout << std::endl;
 
-    
+    std::cout << "Testing for Problem 27. Remove Element: " << std::endl;
+    std::vector<int> nums2 = {0,1,2,2,3,0,4,2};
+    std::cout << "Remaining number : " << removeElement(nums2, 2) << std::endl;
+    for (auto num : nums2) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Testing for Problem 28. Find the Index of the First Occurrence in a String: " << std::endl;
+
+    std::cout << "Test for haystack = \"leetcode\", needle = \"leeto\": " << strStr("leetcode", "leeto") << std::endl;
 
     return 0;
 }
