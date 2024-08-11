@@ -113,3 +113,5 @@ For Problem 26. (Remove Duplicates from Sorted Array), check corner cases like {
 For Problem 27. (Remove Element), similar to Problem 26.
 
 For Problem 28. (Find the Index of the First Occurrence in a String), use for loop with substr(i,...) or simply calling find() function.
+
+For Problem 29. (Divide Two Integers), adopt bit-level operations (get sign, etc). 

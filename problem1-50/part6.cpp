@@ -66,6 +66,32 @@ int strStr(std::string haystack, std::string needle) {
 }
 
 /* 29. Divide Two Integers */
+int divide(int dividend, int divisor) {
+    if (dividend == divisor) {
+        return 1;
+    }
+    int sign1 = dividend & 0x80000000, sign2 = divisor & 0x80000000;
+    int sign = ((sign1) ^ (sign2));
+    unsigned int absDividend = abs(dividend);
+    unsigned int absDivisor = abs(divisor);
+    unsigned int res = 0;
+    while(absDividend >= absDivisor) {
+        short q = 0;
+        while(absDividend > (absDivisor << (q + 1))) {
+            q++;
+        }
+        absDividend -= (absDivisor << q);
+        res += (1 << q);
+    }
+    // check if it can be represented as 32-bit int
+    if ((res & 0x80000000) && !sign) {
+        return INT32_MAX;
+    }
+    return sign ? -res : res;
+}
+
+/*  */
+
 
 int main()
 {
@@ -87,8 +113,12 @@ int main()
     std::cout << std::endl;
 
     std::cout << "Testing for Problem 28. Find the Index of the First Occurrence in a String: " << std::endl;
-
     std::cout << "Test for haystack = \"leetcode\", needle = \"leeto\": " << strStr("leetcode", "leeto") << std::endl;
+
+    std::cout << "Testing for Problem 29. Divide Two Integers: " << std::endl;
+    std::cout << "dividend = -2147483648, divisor = -1 : " << divide(-2147483648, -1) << std::endl;
+
+
 
     return 0;
 }
