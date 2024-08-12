@@ -106,7 +106,7 @@ For Problem 24. (Swap Nodes in Pairs), pay attention to node lost and circular l
 For Problem 25. (Reverse Nodes in k-Group), a more complex version of reversing the linked list.
 
 ## Part 6
-My solution code for Problem 26. (Remove Duplicates from Sorted Array) to Problem
+My solution code for Problem 26. (Remove Duplicates from Sorted Array) to Problem 30. (Substring with Concatenation of All Words).
 
 For Problem 26. (Remove Duplicates from Sorted Array), check corner cases like {1,1,2,3}.
 
