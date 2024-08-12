@@ -115,3 +115,10 @@ For Problem 27. (Remove Element), similar to Problem 26.
 For Problem 28. (Find the Index of the First Occurrence in a String), use for loop with substr(i,...) or simply calling find() function.
 
 For Problem 29. (Divide Two Integers), adopt bit-level operations (get sign, etc). 
+
+For Problem 30. (Substring with Concatenation of All Words).
+- Pay attention to test cases with words that have the same strings in the list. Like words = ["word","good","best","good"] (There are two "good").
+- My first solution code might face "Time Limit Exceeded" issue. 
+
+## Part 7
+

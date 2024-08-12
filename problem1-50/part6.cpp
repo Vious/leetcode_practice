@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 /* 26. Remove Duplicates from Sorted Array */
 int removeDuplicates(std::vector<int>& nums) {
@@ -90,7 +91,82 @@ int divide(int dividend, int divisor) {
     return sign ? -res : res;
 }
 
-/*  */
+/* 30. Substring with Concatenation of All Words */
+std::vector<int> findSubstring(std::string s, std::vector<std::string>& words) {
+/*     // std::vector<int> results;
+    // std::unordered_map<std::string, int> wordsMap;
+    // int size = words[0].size();
+    // for (auto &aWord : words) {
+    //     wordsMap[aWord]++;
+    // }
+    // std::unordered_map<std::string, int> isVisited;
+    // int totalLength = size * words.size();
+    // int stringSize = s.size();
+    // int pivot;
+    // // be careful about here, should be <=
+    // for (int i = 0; i <= stringSize - totalLength; i++) {
+    //     isVisited.clear();
+    //     pivot = i;
+    //     std::cout << pivot << " ";
+    //     while(pivot < i + totalLength) {
+    //         std::string tmpSubStr = s.substr(pivot, size);
+    //         if (wordsMap.find(tmpSubStr) != wordsMap.end()) {
+    //             if (isVisited.find(tmpSubStr) != isVisited.end() && isVisited[tmpSubStr] == wordsMap[tmpSubStr]) {
+    //                 break;
+    //             } else {
+    //                 isVisited[tmpSubStr]++;
+    //                 pivot += size;
+    //             }
+    //         } else {
+    //             break;
+    //         }
+    //     }
+        
+    //     if (pivot == (i + totalLength)) {
+    //         results.emplace_back(i);
+    //     }
+    // }
+    // return results;
+ */    
+    // the above code may face "Time Limit Exceeded" for s = "aaaaaaaaa....", words = ["a", "a"...];
+    std::vector<int> results;
+    std::unordered_map<std::string, int> wordsMap;
+    int wordSize = words[0].size();
+    int numOfWords = words.size();
+    wordsMap.clear();
+    for (auto &aWord : words) {
+        wordsMap[aWord]++;
+    }
+    int strSize = s.size();
+    for (int i = 0; i < wordSize; i++) {
+        std::unordered_map<std::string, int> isVisited;
+        int countLength = 0;
+        for (int j = i; j <= strSize - wordSize; j += wordSize ) {
+            std::string tmpSubStr = s.substr(j, wordSize);
+            if (wordsMap.find(tmpSubStr) == wordsMap.end()) {
+                isVisited.clear();
+                countLength = 0;
+                continue;
+            } else {
+                isVisited[tmpSubStr]++;
+                countLength++;
+                while(isVisited[tmpSubStr] > wordsMap[tmpSubStr]) {
+                    std::string startStr = s.substr(j - (countLength - 1) * wordSize, wordSize);
+                    isVisited[startStr]--;
+                    countLength--;
+                }
+                if (countLength == numOfWords) {
+                    results.emplace_back(j - (countLength - 1) *wordSize);
+                }
+            }
+
+        }
+
+    }
+
+    return results;
+
+}
 
 
 int main()
@@ -118,7 +194,14 @@ int main()
     std::cout << "Testing for Problem 29. Divide Two Integers: " << std::endl;
     std::cout << "dividend = -2147483648, divisor = -1 : " << divide(-2147483648, -1) << std::endl;
 
-
+    std::cout << "Testing for Problem 30. Substring with Concatenation of All Words: " << std::endl;
+    std::vector<std::string> words = {"word","good","best","good"};
+    std::string str = "wordgoodgoodgoodbestword";
+    auto res = findSubstring(str, words);
+    for (auto aNum : res) {
+        std::cout << aNum << " ";
+    }
+    std::cout << std::endl;
 
     return 0;
 }
