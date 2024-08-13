@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <memory>
+#include <cstring>
 
 /* 31. Next Permutation */
 void nextPermutation(std::vector<int>& nums) {
@@ -28,6 +30,37 @@ void nextPermutation(std::vector<int>& nums) {
     std::reverse(nums.begin() + right + 1, nums.end());
 }
 
+/* 32. Longest Valid Parentheses */
+int longestValidParentheses(std::string s) {
+    int size = s.size();
+    if (size <= 1) {
+        return 0;
+    } else if (size == 2 && (s[0] != '(' || s[1] != ')') ) {
+        return 0;
+    }
+    // int dp[size + 1] = {0}; // may face "variable-sized object may not be initialized" on leetcode server
+    int dp[size + 1];
+    memset(dp, 0, (size + 1) * sizeof(int));
+    int validNum = 0;
+    for (int i = 1; i < size; i++) {
+        if (s[i] == ')') {
+            if (s[i - 1] == '(') {
+                dp[i] = dp[i - 2] + 2;
+            } else {
+                if (i - dp[i - 1] - 1 >= 0 && s[i - dp[i - 1] - 1] == '(') {
+                    if (i - dp[i - 1] - 2 >= 0) {
+                        dp[i] = dp[i - 1] + 2 + dp[i - dp[i - 1] - 2];
+                    } else {
+                        dp[i] = dp[i - 1] + 2;
+                    }
+                }
+            }
+        } 
+        validNum = std::max(validNum, dp[i]);
+    }
+    return validNum;
+}
+
 /*  */
 
 int main()
@@ -39,5 +72,10 @@ int main()
         std::cout << num << ", "; 
     }
     std::cout << std::endl;
+
+    std::cout << "Testing for Problem 32. Longest Valid Parentheses: " << std::endl;
+
+    std::cout << "Test for case (()()) : " << longestValidParentheses("(()())") << std::endl;
+
     return 0;
 }

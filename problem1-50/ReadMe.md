@@ -121,4 +121,13 @@ For Problem 30. (Substring with Concatenation of All Words).
 - My first solution code might face "Time Limit Exceeded" issue. 
 
 ## Part 7
+My solution code for Problem 31. (Next Permutation) to Problem 35.
+
+For Problem 31. (Next Permutation), two pointers, pay attention to boundary check.
+
+For Problem 32. (Longest Valid Parentheses), dynamic programming. Suppose we use dp[i] to denote the longest valid parentheses that are up to index i, then we would have following hypothesis,
+- If s[i] == \'(\', its not a valid parentheses, we should simply set dp[i] = 0;
+- If s[i] == ')'
+- 1. s[i - 1] == '(', then dp[i] should be dp[i - 2] + 2;
+- 2. s[i - 1] == ')', then we need to check whether s[i - dp[i - 1] - 1] equals to '(' or not. If so, dp[i] = dp[i - 1] + 2 + dp[i - dp[i-1]- 2].
 
