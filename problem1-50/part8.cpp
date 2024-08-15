@@ -70,9 +70,98 @@ bool isValidSudoku(std::vector<std::vector<char>>& board) {
     return true;
 }
 
+/* 37. Sudoku Solver */
+void solveSudoku(std::vector<std::vector<char>>& board) {
+
+}
+
+/* 38. Count and Say */
+std::string countAndSay(int n) {
+    if (n == 1) {
+        return "1";
+    }
+    std::string result = "1";
+    n--;
+    while(n) {
+        std::string tmpStr;
+        int size = result.size();
+        for (int i = 0; i < size; i++) {
+            int numCount = 1;
+            while(i < size - 1 && result[i] == result[i+1]) {
+                numCount++;
+                i++;
+            }
+            tmpStr += std::to_string(numCount) + result[i];
+        }
+        result = std::move(tmpStr);
+        n--;
+    }
+    return result;
+}
+
+/* 39. Combination Sum */
+void solvecombSumDFS(std::vector<std::vector<int>> &results, std::vector<int>& candidates, int target, std::vector<int>& curCombination, int index) {
+    if (target == 0) {
+        results.emplace_back(curCombination);
+        return;
+    } else {
+        for (int i = index; i < candidates.size(); i++) {
+            if (candidates[i] <= target) {
+                curCombination.emplace_back(candidates[i]);
+                solvecombSumDFS(results, candidates, target - candidates[i], curCombination, i);
+                curCombination.pop_back();
+            }
+        }
+    }
+}
+
+std::vector<std::vector<int>> combinationSum(std::vector<int>& candidates, int target) {
+    std::vector<std::vector<int>> results;
+    std::vector<int> tmpCombination;
+    solvecombSumDFS(results, candidates, target, tmpCombination, 0);
+    return results;
+}
+
+/* 40. Combination Sum II */
+void solvecombSumDFS2(std::vector<std::vector<int>> &results, std::vector<int>& candidates, int target, std::vector<int>& curCombination, int index) {
+    if (target == 0) {
+        results.emplace_back(curCombination);
+        return;
+    } else {
+        for (int i = index; i < candidates.size(); i++) {
+            if (candidates[i] <= target && (i == index || candidates[i] != candidates[i - 1]) ) {
+                curCombination.emplace_back(candidates[i]);
+                solvecombSumDFS2(results, candidates, target - candidates[i], curCombination, i + 1);
+                curCombination.pop_back();
+            }
+        }
+    }
+}
+
+std::vector<std::vector<int>> combinationSum2(std::vector<int>& candidates, int target) {
+    std::vector<std::vector<int>> results;
+    std::vector<int> tmpCombination;
+    std::sort(candidates.begin(), candidates.end());
+    solvecombSumDFS2(results, candidates, target, tmpCombination, 0);
+    return results;
+}
+
 int main()
 {
 
+    std::cout << "Testing for Problem 38. Count and Say: " << std::endl;
+    std::cout << "10 : " << countAndSay(10) << std::endl;
+
+    std::cout << "Testing for Problem 39. Combination Sum: " << std::endl;
+    std::vector<int> candidates = {2,3,6,7};
+    int target = 7;
+    auto res = combinationSum(candidates, target);
+    for (auto &aCom : res) {
+        for (auto ele : aCom) {
+            std::cout << ele << " ";
+        }
+        std::cout << std::endl;
+    }
 
 
     return 0;
