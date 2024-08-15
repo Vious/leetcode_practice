@@ -61,7 +61,123 @@ int longestValidParentheses(std::string s) {
     return validNum;
 }
 
-/*  */
+/* 33. Search in Rotated Sorted Array */
+int search(std::vector<int>& nums, int target) {
+    int size = nums.size();
+    if (size == 0 || (size == 1 && nums[0] != target)) {
+        return -1;
+    }
+    int left = 0, right = size - 1;
+    if (target < nums[left] && target > nums[right]) {
+        return -1;
+    }
+    int middle;
+    while(left <= right) { 
+        middle = (left + right) / 2;
+        if (nums[middle] == target) {
+            return middle;
+        } else if (nums[middle] > target) {
+            if (nums[middle] > nums[right]) {
+                if(target > nums[right]) {
+                    right = middle - 1;
+                } else {
+                    left = middle + 1;
+                } 
+            } else {
+                right = middle - 1;
+            }
+        } else {
+            if (nums[middle] > nums[right]) {
+                left = middle + 1;
+            } else {
+                if (target > nums[right]) {
+                    right = middle - 1;
+                } else {
+                    left = middle + 1;
+                }
+            }
+        }
+    }
+    return -1;
+}
+
+/* 34. Find First and Last Position of Element in Sorted Array */
+std::vector<int> searchRange(std::vector<int>& nums, int target) {
+    int size = nums.size();
+    if (size < 1) {
+        return {-1, -1};
+    }
+    int left = 0, right = size - 1;
+    int middle;
+    while(left <= right) {
+        middle = (left + right) / 2;
+        if (nums[middle] == target) {
+            int mLeft = middle, mRight = middle;
+            while(mLeft > 0 && nums[mLeft] == target) {
+                mLeft--;
+            }
+            mLeft = nums[mLeft] == target ? mLeft : mLeft + 1;
+            while(mRight < size - 1 && nums[mRight] == target) {
+                mRight++;
+            }
+            mRight = nums[mRight] == target ? mRight : mRight - 1;
+            return {mLeft, mRight};
+        } else if (nums[middle] > target) {
+            right = middle - 1;
+        } else {
+            left = middle + 1;
+        }
+    }
+    return {-1, -1};
+}
+
+/* 35. Search Insert Position */
+int searchInsert(std::vector<int>& nums, int target) {
+    int size = nums.size();
+    if (size < 1) {
+        return 0;
+    }
+    if (size == 1) {
+        return nums[0] >= target ? 0 : 1;
+    }
+    int left = 0, right = size - 1;
+    int middle;
+    while (left <= right) {
+        middle = (left + right) / 2;
+        if (nums[middle] == target) {
+            return middle;
+        } else if (nums[middle] > target) {
+            if (middle == 0) {
+                return 0;
+            } else if (middle >= 1 && nums[middle - 1] < target) {
+                return middle;
+            }
+            right = middle - 1;
+        } else {
+            if (middle == size - 1) {
+                return size;
+            } else if (middle < size - 1 && nums[middle + 1] > target) {
+                return middle + 1;
+            }
+            left = middle + 1;
+        }
+    }
+    return left;
+    // or more simpler way
+    // int left = 0, right = size - 1;
+    // int middle;
+    // while (left <= right) {
+    //     middle = (left + right) / 2;
+    //     if (nums[middle] == target) {
+    //         return middle;
+    //     } else if (nums[middle] > target) {
+    //         right = middle - 1;
+    //     } else {
+    //         left = middle + 1;
+    //     }
+    // }
+    // return left;
+}
 
 int main()
 {
@@ -74,8 +190,23 @@ int main()
     std::cout << std::endl;
 
     std::cout << "Testing for Problem 32. Longest Valid Parentheses: " << std::endl;
-
     std::cout << "Test for case (()()) : " << longestValidParentheses("(()())") << std::endl;
+
+    std::cout << "Testing for Problem 33. Search in Rotated Sorted Array: " << std::endl;
+    std::vector<int> testCase = {4,5,6,7,0,1,2};
+    std::cout << "Case : nums = [4,5,6,7,0,1,2], target = 0, " << " Output: " << search(testCase, 0) << std::endl;
+
+    std::cout << "Testing for Problem 34. Find First and Last Position of Element in Sorted Array: " << std::endl;
+    std::vector<int> testCase2 = {5,7,7,8,8,10};
+    std::cout << "Case : nums = [5,7,7,8,8,10], target = 8, " << " Output: ";
+    auto res = searchRange(testCase2, 8);
+    for (auto &ele : res) {
+        std::cout << ele << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "Case : nums = [5,7,7,8,8,10], target = 8, " << " Output: " << searchInsert(testCase2, 8) << std::endl;
+
+
 
     return 0;
 }

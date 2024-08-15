@@ -121,7 +121,7 @@ For Problem 30. (Substring with Concatenation of All Words).
 - My first solution code might face "Time Limit Exceeded" issue. 
 
 ## Part 7
-My solution code for Problem 31. (Next Permutation) to Problem 35.
+My solution code for Problem 31. (Next Permutation) to Problem 35. (35. Search Insert Position).
 
 For Problem 31. (Next Permutation), two pointers, pay attention to boundary check.
 
@@ -130,4 +130,9 @@ For Problem 32. (Longest Valid Parentheses), dynamic programming. Suppose we use
 - If s[i] == ')'
 - 1. s[i - 1] == '(', then dp[i] should be dp[i - 2] + 2;
 - 2. s[i - 1] == ')', then we need to check whether s[i - dp[i - 1] - 1] equals to '(' or not. If so, dp[i] = dp[i - 1] + 2 + dp[i - dp[i-1]- 2].
+
+For Problem 33-35, two pointer binary search with conditions.
+- Maybe a more easier way is to adopt std::lower_bound/upper_bound function, :).
+
+## Part 8
 
