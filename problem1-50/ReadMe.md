@@ -121,7 +121,7 @@ For Problem 30. (Substring with Concatenation of All Words).
 - My first solution code might face "Time Limit Exceeded" issue. 
 
 ## Part 7
-My solution code for Problem 31. (Next Permutation) to Problem 35. (35. Search Insert Position).
+My solution code for Problem 31. (Next Permutation) to Problem 35. (Search Insert Position).
 
 For Problem 31. (Next Permutation), two pointers, pay attention to boundary check.
 
@@ -135,4 +135,7 @@ For Problem 33-35, two pointer binary search with conditions.
 - Maybe a more easier way is to adopt std::lower_bound/upper_bound function, :).
 
 ## Part 8
+My solution code for Problem 36. (36. Valid Sudoku) to Problem 40. ().
 
+For Problem 36. (36. Valid Sudoku), dealing with row, column, 3x3 square resprectively.
+- Use hash map or set.
