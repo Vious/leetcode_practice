@@ -151,4 +151,8 @@ For 40. Combination Sum II, note that each number in candidates may only be used
 - Add conditions on the recursive loop.
 
 ## Part 9
-My solution code for Problem 41. () to Problem 45. ().
+My solution code for Problem 41. (First Missing Positive) to Problem 45. ().
+
+For Problem 41. (First Missing Positive), the difficulty is that we must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space. 
+- A slow way to do is to use hashmap or a boolean array, but it broke the requirements of only using O(1) auxiliary space.
+- The clever way is to do cycle sort, and check if the index of the elements equals to the value of index + 1 or not.
