@@ -135,12 +135,12 @@ For Problem 33-35, two pointer binary search with conditions.
 - Maybe a more easier way is to adopt std::lower_bound/upper_bound function, :).
 
 ## Part 8
-My solution code for Problem 36. (Valid Sudoku) to Problem 40. ().
+My solution code for Problem 36. (Valid Sudoku) to Problem 40. (Combination Sum II).
 
 For Problem 36. (Valid Sudoku), dealing with row, column, 3x3 square resprectively.
 - Use hash map or set.
 
-For Problem 37. (Sudoku Solver)
+For Problem 37. (Sudoku Solver), backtracing. Note: for calculating the box index, it should be 3 * (rowIdx / 3) + colIdx / 3. 
 
 For Problem 38. Count and Say, a strange problem (not well explained), took me quite a few time to understand what I should do, but OK.
 
@@ -149,3 +149,6 @@ For 39. Combination Sum, backtracing, deep first search. Note: there are distinc
 For 40. Combination Sum II, note that each number in candidates may only be used once in the combination.
 - Deal with sorted vector.
 - Add conditions on the recursive loop.
+
+## Part 9
+My solution code for Problem 41. () to Problem 45. ().

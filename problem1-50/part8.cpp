@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <cstring>
+#include <array>
 
 /* 36. Valid Sudoku */
 bool checkRow(std::vector<std::vector<char>>& board, int rIdx) {
@@ -71,8 +72,76 @@ bool isValidSudoku(std::vector<std::vector<char>>& board) {
 }
 
 /* 37. Sudoku Solver */
-void solveSudoku(std::vector<std::vector<char>>& board) {
+/* Below are code for solution 1 */
+std::array<std::array<bool, 9>, 9> rowVisit;
+std::array<std::array<bool, 9>, 9> colVisit;
+std::array<std::array<bool, 9>, 9> boxVisit;
 
+void initBoard(std::vector<std::vector<char>>& board) {
+    // only {false} reset the whole array; {true} seems only set the first one
+    rowVisit = {false};
+    colVisit = {false};
+    boxVisit = {false};
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            if (board[i][j] != '.') {
+                int num = board[i][j] - '1';
+                rowVisit[i][num] = true;
+                colVisit[j][num] = true;
+                boxVisit[3 * (i / 3) + j / 3][num] = true;
+            }
+        }
+    }
+}
+
+void initBoard(std::vector<std::vector<char>>& board) {
+    // only {false} reset the whole array; {true} seems only set the first one
+    rowVisit = {false};
+    colVisit = {false};
+    boxVisit = {false};
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            if (board[i][j] != '.') {
+                int num = board[i][j] - '1';
+                rowVisit[i][num] = true;
+                colVisit[j][num] = true;
+                boxVisit[3 * (i / 3) + j / 3][num] = true;
+            }
+        }
+    }
+}
+
+bool fillBoard(std::vector<std::vector<char>>& board, int rowIdx, int colIdx) {
+    if (rowIdx == 9) {
+        return true;
+    }
+    if (colIdx == 9) {
+        return fillBoard(board, rowIdx + 1, 0);
+    }
+    if (board[rowIdx][colIdx] != '.') {
+        return fillBoard(board, rowIdx, colIdx + 1);
+    }
+    for (int i = 0; i < 9; i++) {
+        if(!rowVisit[rowIdx][i] && !colVisit[colIdx][i] && !boxVisit[3 * (rowIdx / 3) + colIdx / 3][i]) {
+            board[rowIdx][colIdx] = i + '1';
+            rowVisit[rowIdx][i] = true;
+            colVisit[colIdx][i] = true;
+            boxVisit[3 * (rowIdx / 3) + colIdx / 3][i] = true;
+            if (fillBoard(board, rowIdx, colIdx + 1)){
+                return true;
+            }
+            board[rowIdx][colIdx] = '.';
+            rowVisit[rowIdx][i] = false;
+            colVisit[colIdx][i] = false;
+            boxVisit[3 * (rowIdx / 3) + colIdx / 3][i] = false;
+        }
+    }
+    return false;
+}
+
+void solveSudokuSol1(std::vector<std::vector<char>>& board) {
+    initBoard(board);
+    fillBoard(board, 0, 0);
 }
 
 /* 38. Count and Say */
@@ -162,7 +231,6 @@ int main()
         }
         std::cout << std::endl;
     }
-
 
     return 0;
 }
