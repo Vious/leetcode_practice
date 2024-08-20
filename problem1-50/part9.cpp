@@ -170,6 +170,63 @@ std::string multiply(std::string num1, std::string num2) {
     return result;
 }
 
+/* 44. Wildcard Matching */
+bool isMatch(std::string s, std::string p) {
+    if (s.empty()) {
+        if (p.empty()) {
+            return true;
+        }
+        for (auto &ch : p) {
+            if(ch != '*') {
+                return false;
+            }
+        }
+        return true;
+    }
+    size_t m = s.size(), n = p.size();
+    bool dp[m + 1][n + 1];
+    memset(dp, false, sizeof(dp));
+    dp[0][0] = true;
+    for (int i = 1; i < n; i++) {
+        if (p[i - 1] != '*') {
+            break;
+        } else {
+            dp[0][i] = true;
+        }
+    }
+
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if ((s[i - 1] == p[j - 1]) || (p[j - 1] == '?')) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else if (p[j - 1] == '*') {
+                dp[i][j] = dp[i][j - 1] || dp[i - 1][j] || dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = false;
+            }
+        }
+    }
+
+    return dp[m][n];
+}
+
+/* 45. Jump Game II */
+int jump(std::vector<int>& nums) {
+    size_t size = nums.size();
+    int near, far, jumpCount;
+    near = far = jumpCount = 0;
+    while(far < size - 1) {
+        int curFarthest = 0;
+        for (int i = near; i <= far; i++) {
+            curFarthest = std::max(curFarthest, nums[i] + i);
+        }
+        near = far + 1;
+        far = curFarthest;
+        jumpCount++;
+    }
+    return jumpCount;
+}
+
 int main()
 {
     std::cout << "Testing for Problem 41. (First Missing Positive) : " << std::endl;
@@ -184,7 +241,14 @@ int main()
     std::cout << "Multiply 123 with 456 = : " << multiply("123", "456") << std::endl;
     std::cout << "Multiply 2 with 3 = : " << multiply("2", "3") << std::endl;
 
-    
+    std::cout << "Testing for Problem 44. (Wildcard Matching) : " << std::endl;
+    std::cout << "Case: s = \"cb\", p = \"?a\" : " << isMatch("cb", "?a") << std::endl;
+    std::cout << "Case: s = \"aa\", p = \"?a\" : " << isMatch("aa", "?a") << std::endl;
+    std::cout << "Case: s = \"aa\", p = \"*\" : " << isMatch("aa", "*") << std::endl;
+
+    std::cout << "Testing for Problem 45. Jump Game II : " << std::endl;
+    std::vector<int> jumpNum1 = {2,3,1,1,4};
+    std::cout << "Testing case: nums = [2,3,1,1,4], min jump: " << jump(jumpNum1) << std::endl; 
 
     return 0;
 }
