@@ -156,3 +156,9 @@ My solution code for Problem 41. (First Missing Positive) to Problem 45. ().
 For Problem 41. (First Missing Positive), the difficulty is that we must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space. 
 - A slow way to do is to use hashmap or a boolean array, but it broke the requirements of only using O(1) auxiliary space.
 - The clever way is to do cycle sort, and check if the index of the elements equals to the value of index + 1 or not.
+
+For Problem Problem 42. (Trapping Rain Water), two pointers.
+
+For Problem 43. (Multiply Strings), I implement two helper functions, one for sum up two string numbers, and the other for multiplication one digit with another string numbers. If you do not want to reverse the results, use insert at position 0 instead.
+
+
