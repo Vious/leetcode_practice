@@ -151,7 +151,7 @@ For 40. Combination Sum II, note that each number in candidates may only be used
 - Add conditions on the recursive loop.
 
 ## Part 9
-My solution code for Problem 41. (First Missing Positive) to Problem 45. ().
+My solution code for Problem 41. (First Missing Positive) to Problem 45. (Jump Game II).
 
 For Problem 41. (First Missing Positive), the difficulty is that we must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space. 
 - A slow way to do is to use hashmap or a boolean array, but it broke the requirements of only using O(1) auxiliary space.
@@ -160,5 +160,28 @@ For Problem 41. (First Missing Positive), the difficulty is that we must impleme
 For Problem Problem 42. (Trapping Rain Water), two pointers.
 
 For Problem 43. (Multiply Strings), I implement two helper functions, one for sum up two string numbers, and the other for multiplication one digit with another string numbers. If you do not want to reverse the results, use insert at position 0 instead.
+- A quicker method is to define a string with size that size1 + size2, and sum each digits multiplication results with two for loops. Then check whether the first one is '0' or not (to be removed). 
 
+For Problem 44. (Wildcard Matching), dynamic programming. We denote by dp[i][j] for whether the match between 1...i-th characters of s and 1...j-th  characters of p is true or false. So dp[i][j] depends on following cases:
+- If (s[i - 1] == p[j - 1]) is true or (p[j - 1] == '?') is true, then dp[i][j] equals to dp[i-1][j-1].
+- If not, then check
+- 1. If p[j - 1] equals to '*', then d[i][j] depends on dp[i-1][j] || dp[i][j-1] || dp[i-1][j-1].
+- 2. if p[j - 1] DO NOT equals to '*', then up to i and j, the two strs does not match, so dp[i][j] = false.
 
+For Problem 45. (Jump Game II), I benefit a lot from [CodingNinja](https://www.youtube.com/channel/UC9RMNwYTL3SXCP6ShLWVFww)'s video, by using two pointers, one for near jump and another for current farthest jump.
+
+## Part 10
+My solution code for Problem 46. (Permutations) to Problem 50. (Pow(x, n)).
+
+For Problem 46. (Permutations), backtracing, use an additional bool array to check the visited index.
+- I found a quick and smart way on leetcode code sample, which also do backtracing but swap the original vector, by a starting value to nums.size() - 1. (Simple, clever yet efficient!)
+
+For Problem 47. (Permutations II), I choose to first sort the nums, and then add conditions to the code of Problem 46. (Permutations).
+
+For Problem 48. (Rotate Image), the key is to find the transformation mapping of the four corresponding indexes.
+
+For Problem 49. (Group Anagrams), use c++ standard map or hashmap, it's powerful that we simply use hashmap[sortedStr_i].emplace_back(strs[i]);
+
+For Problem 50. (Pow(x, n)).
+- If n < 0, then set x = 1 / x, n = -n, use long long type to store n (preventing from INT_MIN);
+- check n % 2 == 1 or not, and use (x *= x, n /= 2) to reduce computations. 
