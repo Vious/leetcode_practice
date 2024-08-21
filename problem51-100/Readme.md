@@ -5,3 +5,5 @@ My solution code for problems 51 (N-Queens) to 100 (Same Tree). File naming from
 Code from problems 51 (N-Queens) to 55 ().
 
 For Problem 51 (N-Queens), typical backtracing. But remember use one for loop by increasing row number.
+
+For Problem 52 (N-Queens II), counting version of P51.
