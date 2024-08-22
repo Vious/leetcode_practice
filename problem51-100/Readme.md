@@ -9,4 +9,9 @@ For Problem 51 (N-Queens), typical backtracing. But remember use one for loop by
 For Problem 52 (N-Queens II), counting version of P51.
 - A faster code trick is to use 3 one-dimenstional vectors instead of two dim bool arrays, reduces time costs from 200ms+ to about 4ms. (New solution code are uploaded)
 
-For Problem 53. (Maximum Subarray), 
+For Problem 53. (Maximum Subarray), greedy. (Needs some time to review)
+
+For Problem 54. (54. Spiral Matrix),
+- Set a turn flag, and dx, dy as directions, when should dx be 1 or -1.
+- Update four boundary values left-right, up-bottom (decrease, increase, in need).
+

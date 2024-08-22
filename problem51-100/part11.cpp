@@ -113,7 +113,61 @@ int totalNQueens(int n) {
 }
 
 /* 53. Maximum Subarray */
+int maxSubArray(std::vector<int>& nums) {
+    int size = nums.size();
+    if (size == 1) {
+        return nums[0];
+    }
+    int results = nums[0], currentTotal = 0;
+    for (int i = 0; i < size; i++) {
+        currentTotal += nums[i];
+        results = std::max(currentTotal, results);
+        currentTotal = (currentTotal >= 0) ? currentTotal : 0;
+    }
+    return results;
+}
 
+/* 54. Spiral Matrix */
+std::vector<int> spiralOrder(std::vector<std::vector<int>>& matrix) {
+    if (matrix.empty()) {
+        return {};
+    }
+    int M = matrix.size();
+    if (M == 1) {
+        return matrix[0];
+    }
+    std::vector<int> results;
+    int N = matrix[0].size();
+    int row = 0, col = 0, dy = 1, dx = -1;
+    int leftBound = 0, rightBound = N - 1, upperBound = 1, bottomBound = M - 1; 
+    bool turn = false;
+    for (int i = 0; i < M * N; i++) {
+        results.emplace_back(matrix[row][col]);
+        if (!turn) {
+            col += dy;
+            if (col == rightBound + 1 || col == leftBound - 1) {
+                col = (col == rightBound + 1) ? rightBound : leftBound;
+                rightBound = (col == rightBound) ? --rightBound : rightBound;
+                leftBound = (col == leftBound) ? ++leftBound : leftBound;
+                turn = true;
+                dx = -dx;
+                row += dx;
+            }
+        } else {
+            row += dx;
+            if (row == bottomBound + 1 || row == upperBound - 1) {
+                row = (row == bottomBound + 1) ? bottomBound : upperBound;
+                bottomBound = (row == bottomBound) ? --bottomBound : bottomBound;
+                upperBound = (row == upperBound) ? ++upperBound : upperBound;
+                turn = false;
+                dy = -dy;
+                col += dy;
+            }
+
+        }
+    }
+    return results;
+}
 
 int main()
 {
@@ -131,6 +185,17 @@ int main()
     std::cout << "N queens distinct results for n = 8 : " << totalNQueens(8) << std::endl;
 
     std::cout << "Testing for Problem 53. Maximum Subarray: " << std::endl;
+    std::vector<int> nums = {-2,1,-3,4,-1,2,1,-5,4};
+    std::cout << "Test for nums = [-2,1,-3,4,-1,2,1,-5,4] : " << maxSubArray(nums) << std::endl;
+
+    std::cout << "Testing for Problem 54. Spiral Matrix: " << std::endl;
+    // std::vector<std::vector<int>> matrix = {{1,2,3}, {4,5,6}, {7,8,9}};
+    std::vector<std::vector<int>> matrix = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16},{17,18,19,20},{21,22,23,24}};
+    auto spiralRes = spiralOrder(matrix);
+    for (auto &ele : spiralRes) {
+        std::cout << ele << " ";
+    }
+    std::cout << std::endl;
 
     return 0;
 }
