@@ -169,6 +169,29 @@ std::vector<int> spiralOrder(std::vector<std::vector<int>>& matrix) {
     return results;
 }
 
+/* 55. Jump Game */
+bool canJump(std::vector<int>& nums) {
+    int size = nums.size();
+    if (size <= 1) {
+        return true;
+    }
+    int near, far, farthest;
+    near = far = farthest = 0;
+    while(farthest < size - 1) {
+        int tmpFarthest = farthest;
+        for (int i = near; i <= far; i++) {
+            farthest = std::max(farthest, i + nums[i]);
+        }
+        near = far + std::min(1, nums[near]);
+        far = farthest;
+        if (tmpFarthest == farthest && farthest < size - 1) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 int main()
 {
     std::cout << "Testing for Problem 51. N-Queens : " << std::endl;
@@ -196,6 +219,11 @@ int main()
         std::cout << ele << " ";
     }
     std::cout << std::endl;
+
+    std::cout << "Testing for Problem 55. Jump Game: " << std::endl;
+    std::vector<int> jumpNums = {2,0,0};
+    // std::cout << "Can jump for 2,3,1,1,4 ? " << canJump(jumpNums) << std::endl;
+    std::cout << "Can jump for 2,0,0 ? " << canJump(jumpNums) << std::endl;
 
     return 0;
 }

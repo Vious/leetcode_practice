@@ -2,7 +2,7 @@
 My solution code for problems 51 (N-Queens) to 100 (Same Tree). File naming from "part11.cpp" to "part20.cpp". (Every 5 problems in one part)
 
 ## Part 11
-Code from problems 51 (N-Queens) to 55 ().
+Code from problems 51 (N-Queens) to 55 (Jump Game).
 
 For Problem 51 (N-Queens), typical backtracing. But remember use one for loop by increasing row number.
 
@@ -11,7 +11,8 @@ For Problem 52 (N-Queens II), counting version of P51.
 
 For Problem 53. (Maximum Subarray), greedy. (Needs some time to review)
 
-For Problem 54. (54. Spiral Matrix),
+For Problem 54. (Spiral Matrix), code beats 100%, feeling a bit nice.
 - Set a turn flag, and dx, dy as directions, when should dx be 1 or -1.
 - Update four boundary values left-right, up-bottom (decrease, increase, in need).
 
+For Problem 55. (Jump Game), two pointers, near, far and a value for farthest. 
