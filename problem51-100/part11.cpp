@@ -77,13 +77,43 @@ void calcBacktraceNqueens(std::vector<std::vector<bool>> visited, int &count, in
     }
 }
 
+// solution 1.
+// int totalNQueens(int n) {
+//     std::vector<std::vector<bool>> visited(n, std::vector<bool>(n));
+//     int count = 0;
+//     calcBacktraceNqueens(visited, count, 0, n);
+
+//     return count;
+// }
+
+// solution 2, a much faster solution.
+
+void countNqueens(std::vector<bool> &cols, std::vector<bool> &left, std::vector<bool> &right, int &count, int row, int number) {
+    if (row == number) {
+        count++;
+        return;
+    }
+    for (int i = 0; i < number; i++) {
+        if (cols[i] || left[row+i] || right[number + row - i]) {
+            continue;
+        }
+        cols[i] = left[row+i] = right[number + row - i] = true;
+        countNqueens(cols, left, right, count, row + 1, number);
+        cols[i] = left[row+i] = right[number + row - i] = false;
+
+    }
+}
+
 int totalNQueens(int n) {
-    std::vector<std::vector<bool>> visited(n, std::vector<bool>(n));
     int count = 0;
-    calcBacktraceNqueens(visited, count, 0, n);
+    std::vector<bool> cols(n + 1, false), left(2 * n + 1, false), right(2 * n + 1, false);
+    countNqueens(cols, left, right, count, 0, n);
 
     return count;
 }
+
+/* 53. Maximum Subarray */
+
 
 int main()
 {
@@ -99,6 +129,8 @@ int main()
 
     std::cout << "Testing for Problem 52. N-Queens II: " << std::endl;
     std::cout << "N queens distinct results for n = 8 : " << totalNQueens(8) << std::endl;
+
+    std::cout << "Testing for Problem 53. Maximum Subarray: " << std::endl;
 
     return 0;
 }
