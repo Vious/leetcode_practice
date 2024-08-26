@@ -16,3 +16,9 @@ For Problem 54. (Spiral Matrix), code beats 100%, feeling a bit nice.
 - Update four boundary values left-right, up-bottom (decrease, increase, in need).
 
 For Problem 55. (Jump Game), two pointers, near, far and a value for farthest. 
+
+## Part 12
+Code from problems 56 (Merge Intervals) to 60 (Permutation Sequence).
+
+For Problem 56. (Merge Intervals), there are intervals like: [[2,3],[4,5],[6,7],[8,9],[1,10]], needs to be sorted, a bit tricky, I was kind of fooled by the given examples.
+
