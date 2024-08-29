@@ -27,3 +27,7 @@ Problem 57. (Insert Interval), similar to P56. We could try using two pointers f
 Problem 58. (Length of Last Word), back counting (faster), or string split.
 
 Problem 59. (Spiral Matrix II), counting version of Problem 54. (Spiral Matrix).
+
+Problem 60. (Permutation Sequence), acutally, we can think about that if k < (n - 1)!, then the first one must be 1, and if k < (n - 2), then the second digit would be 2... So we can,
+- Use an initial initStr with "123456...n", then find idx = k / fact[n - 1], set result += initStr[idx]
+- Remove initStr[idx] from initStr, k mod fact[n - 1], n--.

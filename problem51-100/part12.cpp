@@ -123,6 +123,60 @@ std::vector<std::vector<int>> generateMatrix(int n) {
     return results;
 }
 
+/* 60. Permutation Sequence */
+void nextPermutation(std::string &str) {
+    size_t size = str.size();
+    if (size == 1) {
+        return;
+    }
+    if (size == 2) {
+        std::swap(str[0], str[1]);
+        return;
+    }
+    int right = size - 2;
+    while(right >= 0 && str[right] >= str[right+1]) {
+        right--;
+    }
+    if (right >= 0) {
+        int swapIdx = size - 1;
+        while(swapIdx >= 0 && str[swapIdx] <= str[right]) {
+            swapIdx--;
+        }
+        std::swap(str[right], str[swapIdx]);
+    }
+    std::reverse(str.begin() + right + 1, str.end());
+}
+
+std::string getPermutation(int n, int k) {
+    // std::string result;
+    // // brute-force
+    // for (int i = 1; i <= n; i++) {
+    //     result += i + '0';
+    // }
+    // for (int i = 1; i < k; i++) {
+    //     // std::next_permutation(result.begin(), result.end());
+    //     nextPermutation(result);
+    // }
+    // return result;
+    /* try a better solution, recursive, guess which digits should be in which place according to k */
+    std::string result = "";
+    std::string initStr = std::string("123456789").substr(0, n);
+    int factorial[n];
+    factorial[0] = 1;
+    for (int i = 1; i < n; i++) {
+        factorial[i] = i * factorial[i - 1];
+    }
+    k--;
+    while(k) {
+        int idx = k / factorial[n - 1];
+        result += initStr[idx];
+        initStr.erase(initStr.begin() + idx);
+        k %= factorial[n - 1];
+        n--;
+    }
+    return result + initStr;
+}
+
 int main()
 {
     std::cout << "Testing for Problem 56. Merge Intervals : " << std::endl;
@@ -159,6 +213,12 @@ int main()
         }
         std::cout << std::endl;
     }
+
+    std::cout << "Testing for Problem 60. Permutation Sequence : " << std::endl;
+    std::cout << "Input: n = 3, k = 3: " << getPermutation(3, 3) << std::endl;
+    std::cout << "Input: n = 4, k = 9: " << getPermutation(4, 9) << std::endl;
+    std::cout << "Input: n = 3, k = 1: " << getPermutation(3, 1) << std::endl;
+    std::cout << "Input: n = 2, k = 2: " << getPermutation(2, 2) << std::endl;
 
     return 0;
 }
