@@ -22,3 +22,6 @@ Code from problems 56 (Merge Intervals) to 60 (Permutation Sequence).
 
 For Problem 56. (Merge Intervals), there are intervals like: [[2,3],[4,5],[6,7],[8,9],[1,10]], needs to be sorted, a bit tricky, I was kind of fooled by the given examples.
 
+Problem 57. (Insert Interval), similar to P56. We could try using two pointers for binary search and then merge.
+
+Problem 58. (Length of Last Word), 
