@@ -84,6 +84,45 @@ int lengthOfLastWord(std::string s) {
     return count;
 }
 
+/* 59. Spiral Matrix II */
+std::vector<std::vector<int>> generateMatrix(int n) {
+    if (n == 1) {
+        return {{1}};
+    }
+    std::vector<std::vector<int>> results(n, std::vector<int>(n));
+    int row = 0, col = 0, dy = 1, dx = -1;
+    int leftBound = 0, rightBound = n - 1, upperBound = 1, bottomBound = n - 1;
+    int count = 1;
+    bool turn = false;
+    for (int i = 0; i < n * n ; i++) {
+        results[row][col] = count;
+        if (!turn) {
+            col += dy;
+            count++;
+            if (col == rightBound + 1 || col == leftBound - 1) {
+                col = (col == rightBound + 1) ? rightBound : leftBound;
+                rightBound = (col == rightBound) ? --rightBound : rightBound;
+                leftBound = (col == leftBound) ? ++leftBound : leftBound;
+                turn = true;
+                dx = -dx;
+                row += dx;
+            }
+        } else {
+            row += dx;
+            count++;
+            if (row == bottomBound + 1 || row == upperBound - 1) {
+                row = (row == bottomBound + 1) ? bottomBound : upperBound;
+                bottomBound = (row == bottomBound) ? --bottomBound : bottomBound;
+                upperBound = (row == upperBound) ? ++upperBound : upperBound;
+                turn = false;
+                dy = -dy;
+                col += dy;
+            }
+        }
+    }
+    return results;
+}
+
 int main()
 {
     std::cout << "Testing for Problem 56. Merge Intervals : " << std::endl;
@@ -110,6 +149,16 @@ int main()
     std::cout << "Test \"   fly me   to   the moon  \" : " << lengthOfLastWord("   fly me   to   the moon  ") << std::endl;
     std::cout << "Test \"luffy is still joyboy\" : " << lengthOfLastWord("luffy is still joyboy") << std::endl;
     std::cout << "Test \"Hello World\" : " << lengthOfLastWord("Hello World") << std::endl;
+
+
+    std::cout << "Testing for Problem 59. Spiral Matrix II : " << std::endl;
+    auto res3 = generateMatrix(5);
+    for (auto &vec : res3) {
+        for (int ele : vec) {
+            std::cout << ele << " ";
+        }
+        std::cout << std::endl;
+    }
 
     return 0;
 }

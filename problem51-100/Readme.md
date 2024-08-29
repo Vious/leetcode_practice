@@ -24,4 +24,6 @@ For Problem 56. (Merge Intervals), there are intervals like: [[2,3],[4,5],[6,7],
 
 Problem 57. (Insert Interval), similar to P56. We could try using two pointers for binary search and then merge.
 
-Problem 58. (Length of Last Word), 
+Problem 58. (Length of Last Word), back counting (faster), or string split.
+
+Problem 59. (Spiral Matrix II), counting version of Problem 54. (Spiral Matrix).
