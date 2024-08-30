@@ -36,3 +36,10 @@ Problem 60. (Permutation Sequence), acutally, we can think about that if k < (n 
 My solution code from problems 61 (Rotate List) to 65 ().
 
 Problem 61. Rotate List, first find the last pointer and make a circle, then move it and the head according to k.
+
+Problem 62. Unique Paths, dp[i][j] = dp[i - 1][j] + dp[i][j - 1].
+
+Problem 63. Unique Paths II, condtioned version of P62. But, watch out for the test cases like [[1]], [[1, 0]]
+
+Problem 64. Minimum Path Sum, similar to P62 and P63.
+
