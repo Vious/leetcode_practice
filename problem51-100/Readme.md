@@ -31,3 +31,8 @@ Problem 59. (Spiral Matrix II), counting version of Problem 54. (Spiral Matrix).
 Problem 60. (Permutation Sequence), acutally, we can think about that if k < (n - 1)!, then the first one must be 1, and if k < (n - 2), then the second digit would be 2... So we can,
 - Use an initial initStr with "123456...n", then find idx = k / fact[n - 1], set result += initStr[idx]
 - Remove initStr[idx] from initStr, k mod fact[n - 1], n--.
+
+## Part 13
+My solution code from problems 61 (Rotate List) to 65 ().
+
+Problem 61. Rotate List, first find the last pointer and make a circle, then move it and the head according to k.
