@@ -88,7 +88,19 @@ int mySqrt(int x) {
     return closedInt;
 }
 
-/*  */
+/* 70. Climbing Stairs */
+int climbStairs(int n) {
+    if (n == 1) {
+        return 1;
+    }
+    int dp[n];
+    std::memset(dp, 0, sizeof(dp));
+    dp[0] = 1, dp[1] = 2;
+    for (int i = 2; i < n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    return dp[n - 1];
+}
 
 int main()
 {
@@ -106,12 +118,17 @@ int main()
     std::cout << "Sum for a = \"1010\", b = \"10111\" : " << addBinary("1010", "10111") << std::endl; 
 
 
+
+
     std::cout << "Testing for Problem 69. Sqrt(x) : " << std::endl;
     std::cout << "Test 4 :" << mySqrt(4) << std::endl;
     std::cout << "Test 8 :" << mySqrt(8) << std::endl;
     std::cout << "Test 15 :" << mySqrt(15) << std::endl;
     std::cout << "Test 16 :" << mySqrt(16) << std::endl;
     std::cout << "Test 5 :" << mySqrt(5) << std::endl;
+
+    std::cout << "Testing for Problem 70. Climbing Stairs : " << std::endl;
+    std::cout << "Test for n = 3: " << climbStairs(3) << std::endl;
 
     return 0;
 }

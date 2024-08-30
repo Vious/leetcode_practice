@@ -50,3 +50,5 @@ My solution code from Problem 66. (Plus One) to 70 ().
 Problem 66. (Plus One) to Problem 67. (Add Binary), similar, check carry value, char to int, int to char.
 
 Problem 69. Sqrt(x), I just add check code for 2147395599 and the numbers above it (seems a little stupid). 
+
+Problem 70. Climbing Stairs, simple dynamic programming.
