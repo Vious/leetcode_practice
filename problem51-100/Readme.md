@@ -43,3 +43,9 @@ Problem 63. Unique Paths II, condtioned version of P62. But, watch out for the t
 
 Problem 64. Minimum Path Sum, similar to P62 and P63.
 
+
+## Part 14
+My solution code from Problem 66. (Plus One) to 70 ().
+
+Problem 66. (Plus One) to Problem 67. (Add Binary), similar, check carry value, char to int, int to char.
+
