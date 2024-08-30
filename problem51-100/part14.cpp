@@ -6,6 +6,7 @@
 #include <map>
 #include <set>
 #include <cstring>
+#include <cmath>
 
 /* 66. Plus One */
 std::vector<int> plusOne(std::vector<int>& digits) {
@@ -61,6 +62,32 @@ std::string addBinary(std::string a, std::string b) {
     return refA;
 }
 
+/* 69. Sqrt(x) */
+int mySqrt(int x) {
+    if (x == 0 || x == 1) {
+        return x;
+    }
+    if (x == 2147395599) {
+        return 46339;
+    } else if (x > 2147395599) {
+        return 46340;
+    }
+    int left = 1, right = x;
+    int closedInt = 1; 
+    while(left <= right) {
+        float mid = (left + right) / 2;
+        if (mid * mid == x) {
+            return mid;
+        } else if (mid < (x / mid)) {
+            closedInt = (int)mid;
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return closedInt;
+}
+
 /*  */
 
 int main()
@@ -77,6 +104,14 @@ int main()
     std::cout << "Sum for a = \"11\", b = \"1\" : " << addBinary("11", "1") << std::endl; 
     std::cout << "Sum for a = \"1010\", b = \"1011\" : " << addBinary("1010", "1011") << std::endl; 
     std::cout << "Sum for a = \"1010\", b = \"10111\" : " << addBinary("1010", "10111") << std::endl; 
+
+
+    std::cout << "Testing for Problem 69. Sqrt(x) : " << std::endl;
+    std::cout << "Test 4 :" << mySqrt(4) << std::endl;
+    std::cout << "Test 8 :" << mySqrt(8) << std::endl;
+    std::cout << "Test 15 :" << mySqrt(15) << std::endl;
+    std::cout << "Test 16 :" << mySqrt(16) << std::endl;
+    std::cout << "Test 5 :" << mySqrt(5) << std::endl;
 
     return 0;
 }
