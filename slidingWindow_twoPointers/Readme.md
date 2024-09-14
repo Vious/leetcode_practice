@@ -11,6 +11,9 @@ For problems related to sliding window methods and two pointers.
 
 Problem 209. Minimum Size Subarray Sum
 
+Problem 2904. Shortest and Lexicographically Smallest Beautiful String
+
+
 
 ## 3. Single Sequence Two Pointers
 
