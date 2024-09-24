@@ -59,10 +59,36 @@ int minExtraChar(std::string s, std::vector<std::string>& dictionary) {
     return dp[0];
 }
 
+/* 3043. Find the Length of the Longest Common Prefix */
+int longestCommonPrefix(std::vector<int>& arr1, std::vector<int>& arr2) {
+    if (arr1.size() == 0 || arr2.size() == 0) {
+        return 0;
+    }
+    std::unordered_set<int> lcpMap;
+    for (int val : arr1) {
+        while(!lcpMap.count(val) && val > 0) {
+            lcpMap.insert(val);
+            val /= 10;
+        }
+    }
+    int res = 0;
+    for (int val : arr2) {
+        while(!lcpMap.count(val) && val > 0) {
+            val /= 10;
+        }
+        if (val > 0) {
+            res = std::max(res, static_cast<int>(log10(val)) + 1);
+        }
+    }
+    return res;
+
+}
+
 int main()
 {
-    std::cout << "440. K-th Smallest in Lexicographical Order\n";
-
+    std::cout << "3043. Find the Length of the Longest Common Prefix\n";
+    std::vector<int> arr1 = {1, 10, 100}, arr2 = {1000};
+    std::cout << "Lcp of arr1 = {1, 10, 100}, arr2 = {1000}: " << longestCommonPrefix(arr1, arr2) << std::endl;
 
     return 0;
 }
