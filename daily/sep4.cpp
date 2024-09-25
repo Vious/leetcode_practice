@@ -84,6 +84,47 @@ int longestCommonPrefix(std::vector<int>& arr1, std::vector<int>& arr2) {
 
 }
 
+/* 2416. Sum of Prefix Scores of Strings */
+struct TrieNode {
+    int count = 0;
+    TrieNode *next[26] = {};
+};
+
+TrieNode root;
+
+void insertWord(std::string aWord) {
+    auto node = &root;
+    for (char ch : aWord) {
+        if (!node->next[ch - 'a']) {
+            node->next[ch - 'a'] = new TrieNode();
+        }
+        node->next[ch - 'a']->count++;
+        node = node->next[ch - 'a'];
+    }
+}
+
+int countPrefix(std::string aWord) {
+    auto node = &root;
+    int prefixNum = 0;
+    for (char ch : aWord) {
+        prefixNum += node->next[ch - 'a']->count;
+        node = node->next[ch - 'a'];
+    }
+    return prefixNum;
+}
+
+std::vector<int> sumPrefixScores(std::vector<std::string>& words) {
+    std::vector<int> res;
+    for (auto &aWord : words) {
+        insertWord(aWord);
+    }
+    for (auto &aWord : words) {
+        int count = countPrefix(aWord);
+        res.push_back(count);
+    }
+    return res;
+}
+
 int main()
 {
     std::cout << "3043. Find the Length of the Longest Common Prefix\n";
