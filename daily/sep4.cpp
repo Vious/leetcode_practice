@@ -125,6 +125,22 @@ std::vector<int> sumPrefixScores(std::vector<std::string>& words) {
     return res;
 }
 
+/* 729. My Calendar I */
+std::vector<std::pair<int, int>> calendar;
+bool book(int start, int end) {
+    if (calendar.empty()) {
+        calendar.emplace_back(std::make_pair(start, end));
+        return true;
+    }
+    for (auto &pair : calendar) {
+        if(!(start >= pair.second || end <= pair.first )) {
+            return false;
+        }
+    }
+    calendar.emplace_back(std::make_pair(start, end));
+    return true;
+}
+
 int main()
 {
     std::cout << "3043. Find the Length of the Longest Common Prefix\n";
