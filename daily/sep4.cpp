@@ -141,11 +141,50 @@ bool book(int start, int end) {
     return true;
 }
 
+
+/* 731. My Calendar II */
+std::vector<std::tuple<int, int, int>> bookTable;
+std::vector<std::pair<int, int>> calendarII;
+
+bool checkBook(int start, int end) {
+    int count = 0, size = calendarII.size();
+    for (int i = 0; i < size; i++) {
+        int x = calendarII[i].first, y = calendarII[i].second;
+        if (!(start >= x || end <= y )) {
+            count++;
+            if (count == 2) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool bookCalendarII(int start, int end) {
+    if (calendarII.empty()) {
+        calendarII.emplace_back(std::make_pair(start, end));
+        return true;
+    }
+    for (auto &pair : calendarII) {
+        if(!(start >= pair.second || end <= pair.first )) {
+            int x = std::max(start, pair.first);
+            int y = std::min(end, pair.second);
+            if (checkBook(x, y)) {
+                return false;
+            }
+        }
+    }
+    calendarII.emplace_back(std::make_pair(start, end));
+    return true;
+}
+
+
 int main()
 {
     std::cout << "3043. Find the Length of the Longest Common Prefix\n";
     std::vector<int> arr1 = {1, 10, 100}, arr2 = {1000};
     std::cout << "Lcp of arr1 = {1, 10, 100}, arr2 = {1000}: " << longestCommonPrefix(arr1, arr2) << std::endl;
+
+
 
     return 0;
 }
