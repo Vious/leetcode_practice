@@ -80,6 +80,53 @@ public:
     }
 };
 
+/* 1381. Design a Stack With Increment Operation */
+class CustomStack {
+private:
+    std::vector<int> mstBuffer;
+    int maxSize;
+    int topPtr = -1;
+    int size = 0;
+public:
+    CustomStack(int maxSize) {
+        this->maxSize = maxSize;
+        mstBuffer.reserve(maxSize);
+    }
+    
+    void push(int x) {
+        if (size == maxSize) {
+            return;
+        } else {
+            topPtr++;
+            mstBuffer[topPtr] = x;
+            size++;
+        }
+    }
+    
+    int pop() {
+        if (size == 0) {
+            return -1;
+        } else {
+            int value = mstBuffer[topPtr];
+            topPtr--;
+            size--;
+            return value;
+        }
+    }
+    
+    void increment(int k, int val) {
+        if (k <= size) {
+            for (int i = 0; i < k; i++) {
+                mstBuffer[i] += val;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                mstBuffer[i] += val;
+            }
+        }
+    }
+};
+
 int main()
 {   
     std::unique_ptr<AllOne> allOne = std::make_unique<AllOne>();
