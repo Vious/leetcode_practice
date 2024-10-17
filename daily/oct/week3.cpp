@@ -92,6 +92,47 @@ std::string longestDiverseString(int a, int b, int c) {
     return result;
 }
 
+/* 670. Maximum Swap */
+int vecSum(std::vector<int> &nums) {
+    size_t size = nums.size();
+    int sum = 0;
+    for (int i = 0 ; i < size; i++) {
+        sum = sum * 10 + nums[i];
+    }
+    return sum;
+}
+
+int maximumSwap(int num) {
+    std::vector<int> digits;
+    int originalVal = num;
+    while(num > 0) {
+        digits.emplace_back(num % 10);
+        num /= 10;
+    }
+    std::reverse(digits.begin(), digits.end());
+    size_t size = digits.size();
+    int maxVal = digits[0];
+    bool canSwap = false;
+    size_t indx = 0;
+    for (int i = 0; i < size - 1; i++) {
+        canSwap = false;
+        maxVal = digits[i];
+        indx = i;
+        for (int j = i + 1; j < size; j++) {
+            if (digits[j] > digits[i]) {
+                canSwap = true;
+                indx = digits[j] >= maxVal ? j : indx;
+                maxVal = digits[j] >= maxVal ? digits[j] : maxVal;
+            }
+        }
+        if (canSwap) {
+            std::swap(digits[i], digits[indx]);
+            originalVal = std::max(originalVal, vecSum(digits));
+            std::swap(digits[i], digits[indx]);
+        }
+    }
+    return originalVal;
+}
 
 int main()
 {
@@ -110,6 +151,11 @@ int main()
 
     std::cout << "1405. Longest Happy String: " << std::endl;
     std::cout << longestDiverseString(1, 1, 7) << std::endl;
+
+    std::cout << "670. Maximum Swap: " << std::endl;
+    std::cout << maximumSwap(2736) << std::endl;
+    std::cout << maximumSwap(9973) << std::endl;
+    std::cout << maximumSwap(1993) << std::endl;
 
     return 0;
 }
