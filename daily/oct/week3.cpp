@@ -134,14 +134,36 @@ int maximumSwap(int num) {
     return originalVal;
 }
 
+/* 2044. Count Number of Maximum Bitwise-OR Subsets */
+int backtraceSubOr(std::vector<int> &nums, int &maxVal, int tmp, int level) {
+    if (level == nums.size()) {
+        return tmp == maxVal? 1 : 0;
+    }
+    int count1 = backtraceSubOr(nums, maxVal, tmp | nums[level], level + 1);
+
+    int count2 = backtraceSubOr(nums, maxVal, tmp, level + 1);
+
+    return count1 + count2;
+}
+
+int countMaxOrSubsets(std::vector<int>& nums) {
+    size_t size = nums.size();
+    int maxVal = 0;
+    for (int i = 0; i < size; i++) {
+        maxVal = maxVal | nums[i];
+    }
+    int tmpVal = 0;
+    return backtraceSubOr(nums, maxVal, tmpVal, 0);
+}
+
 int main()
 {
     std::cout << "2530. Maximal Score After Applying K Operations: " << std::endl;
-    std::vector<int> nums = {10, 10, 10, 10, 10};
-    std::cout << maxKelements(nums, 5) << std::endl;
+    // std::vector<int> nums = {10, 10, 10, 10, 10};
+    // std::cout << maxKelements(nums, 5) << std::endl;
 
-    std::vector<int> nums2 = {1, 10, 3, 3, 3};
-    std::cout << maxKelements(nums2, 3) << std::endl;
+    // std::vector<int> nums2 = {1, 10, 3, 3, 3};
+    // std::cout << maxKelements(nums2, 3) << std::endl;
 
 
     std::cout << "2938. Separate Black and White Balls: " << std::endl;
@@ -156,6 +178,14 @@ int main()
     std::cout << maximumSwap(2736) << std::endl;
     std::cout << maximumSwap(9973) << std::endl;
     std::cout << maximumSwap(1993) << std::endl;
+
+    std::cout << "2044. Count Number of Maximum Bitwise-OR Subsets: " << std::endl;
+    std::vector<int> nums1 = {3, 1};
+    std::cout << countMaxOrSubsets(nums1) << std::endl;
+    std::vector<int> nums2 = {2, 2, 2};
+    std::cout << countMaxOrSubsets(nums2) << std::endl;
+    std::vector<int> nums3 = {3,2,1,5};
+    std::cout << countMaxOrSubsets(nums3) << std::endl;
 
     return 0;
 }
