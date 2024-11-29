@@ -153,7 +153,25 @@ std::vector<std::vector<int>> fourSum(std::vector<int>& nums, int target) {
     return results;
 }
 
-
+/* 611. Valid Triangle Number  */
+int triangleNumber(std::vector<int>& nums) {
+    int size = nums.size();
+    if (size < 3) return 0;
+    int count = 0;
+    std::sort(nums.begin(), nums.end());
+    for (int i = 0; i < size - 2; i++) {
+        if (nums[i] == 0) continue;
+        int lindx = i + 2; // put it here, makes code much faster
+        for (int j = i + 1; j < size - 1; j++) {
+            // int lindx = j + 1;
+            while(lindx < size && nums[i] + nums[j] > nums[lindx]) {
+                lindx++;
+            }
+            count += (lindx - j) - 1;
+        }
+    }
+    return count;
+}
 
 int main()
 {
