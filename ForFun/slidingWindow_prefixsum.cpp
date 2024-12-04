@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <ranges>
+#include <queue>
 
 
 using namespace std;
@@ -142,6 +143,54 @@ int maximumBeauty(vector<int>& nums, int k) {
     return result;
 }
 
+/* 1004. Max Consecutive Ones III */
+int longestOnes(vector<int>& nums, int k) {
+    int size = nums.size();
+    int left = 0, flipCounter = 0, result = 0;
+    std::queue<int> indxQ;
+    for (int i = 0; i < size; i++) {
+        if (nums[i]) {
+            result = std::max(result, i - left + 1);
+        } else {
+            if (k > 0) {
+                if (flipCounter < k) {
+                    flipCounter++;
+                    result = std::max(result, i - left + 1);
+                    indxQ.push(i);
+                } else {
+                    left = indxQ.front() + 1;
+                    result = std::max(result, i - left + 1);
+                    indxQ.pop();
+                    indxQ.push(i);
+                }
+            } else {
+                left = i + 1;
+            }
+        }
+    }
+    return result;
+}
+
+/* 2962. Count Subarrays Where Max Element Appears at Least K Times */
+long long countSubarrays(vector<int>& nums, int k) {
+    int size = nums.size();
+    if (size < k) return 0;
+    int maxValue = nums[0];
+    for (int i = 1; i < size; i++) {
+        maxValue = maxValue >= nums[i] ? maxValue : nums[i];
+    }
+    long long result = 0;
+    int left = 0, counter = 0;
+    for (int i = 0; i < size; i++) {
+        counter = (nums[i] == maxValue) ? counter + 1 : counter;
+        while(counter == k) {
+            counter = (nums[left] == maxValue) ? counter - 1 : counter;
+            left++;
+        }
+        result += left;
+    }
+    return result;
+}
 
 int main()
 {
@@ -160,8 +209,10 @@ int main()
 
     std::vector<int> nums2 = {4,6,1,2};
     std::cout << "2779. Maximum Beauty of an Array After Applying Operation : nums2 = {4,6,1,2} " << maximumBeauty(nums2, 2) << std::endl;
-    std::vector<int> nums3 = {100000};
-    std::cout << "2779. Maximum Beauty of an Array After Applying Operation : nums3 = {100000} " << maximumBeauty(nums3, 0) << std::endl;
+    // std::vector<int> nums3 = {100000};
+    // std::cout << "2779. Maximum Beauty of an Array After Applying Operation : nums3 = {100000} " << maximumBeauty(nums3, 0) << std::endl;
+
+
 
     return 0;
 }
