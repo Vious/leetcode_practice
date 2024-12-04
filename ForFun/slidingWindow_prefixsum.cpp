@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <ranges>
 
 
 using namespace std;
@@ -125,6 +126,23 @@ int longestSemiRepetitiveSubstring(string s) {
     return result;
 }
 
+/* 2779. Maximum Beauty of an Array After Applying Operation */
+int maximumBeauty(vector<int>& nums, int k) {
+    ranges::sort(nums);
+    int result = 0;
+    int left = 0, size = nums.size();
+    for (int i = 0; i < size; i++) {
+        int gap = nums[i] - nums[left];
+        while(left < i && gap > 2 * k) {
+            left++;
+            gap = nums[i] - nums[left];
+        }
+        result = std::max(result, i - left + 1);
+    }
+    return result;
+}
+
+
 int main()
 {
     std::vector<int> nums = {10,5,2,6};
@@ -139,6 +157,11 @@ int main()
     std::cout << "2730. Find the Longest Semi-Repetitive Substring : 0001 : " << longestSemiRepetitiveSubstring("0001") << std::endl;
     std::cout << "4411794 : " << longestSemiRepetitiveSubstring("4411794") << std::endl;
     std::cout << "24489929009 : " << longestSemiRepetitiveSubstring("24489929009") << std::endl;
+
+    std::vector<int> nums2 = {4,6,1,2};
+    std::cout << "2779. Maximum Beauty of an Array After Applying Operation : nums2 = {4,6,1,2} " << maximumBeauty(nums2, 2) << std::endl;
+    std::vector<int> nums3 = {100000};
+    std::cout << "2779. Maximum Beauty of an Array After Applying Operation : nums3 = {100000} " << maximumBeauty(nums3, 0) << std::endl;
 
     return 0;
 }
