@@ -72,7 +72,7 @@ int maximumCount(vector<int>& nums) {
             left = mid + 1;
         } else {
             right = mid - 1;
-            cntPos = size - right;
+            cntPos = size - right - 1;
         }
     }
     return std::max(cntNeg, cntPos); 
