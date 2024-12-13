@@ -184,7 +184,31 @@ int hIndex(vector<int>& citations) {
     return result;
 }
 
-/*  */
+/* 875. Koko Eating Bananas */
+bool canEat(vector<int>& piles, int h, int k) {
+    int sum = piles.size();
+    for (int val : piles) {
+        sum += (val - 1) / k;
+        if (sum > h) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int minEatingSpeed(vector<int>& piles, int h) {
+    int size = piles.size();
+    int left = 1, right = ranges::max(piles);
+    while(left <= right) {
+        int mid = left + (right - left) / 2;
+        if (canEat(piles, h, mid)) {
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return right + 1;
+}
 
 int main()
 {
@@ -205,7 +229,8 @@ int main()
     // std::cout << std::endl;
 
     // std::cout << "275. H-Index II, : ";
-
+    std::vector<int> piles = {312884470};
+    std::cout << "875. Koko Eating Bananas : piles = [312884470], h = 968709470 : " << minEatingSpeed(piles, 968709470) << std::endl;
 
     return 0;
 }
