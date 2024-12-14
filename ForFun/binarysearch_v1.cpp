@@ -210,6 +210,36 @@ int minEatingSpeed(vector<int>& piles, int h) {
     return right + 1;
 }
 
+/* 2187. Minimum Time to Complete Trips */
+bool canComplete(vector<int>& time, int totalTrips, long long curTime) {
+    long long sum = 0;
+    for (int t : time) {
+        sum += (curTime) / t;
+        if (sum >= totalTrips) {
+            return true;
+        }
+    }
+    return false;
+}
+
+long long minimumTime(vector<int>& time, int totalTrips) {
+    int size = time.size();
+    /* reduce search space */
+    auto [minBus, maxBus] = ranges::minmax(time);
+    int average = (totalTrips - 1) / size + 1;
+    long long left = (long long)minBus * average;
+    long long right = std::min((long long)maxBus * average, (long long)minBus * totalTrips);
+    while(left <= right) {
+        long long mid = left + (right - left) / 2;
+        if (canComplete(time, totalTrips, mid)) {
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return right + 1;
+}
+
 int main()
 {
     std::vector<int> spells = {5, 1, 3}, potions = {1, 2, 3, 4, 5};
@@ -231,6 +261,9 @@ int main()
     // std::cout << "275. H-Index II, : ";
     std::vector<int> piles = {312884470};
     std::cout << "875. Koko Eating Bananas : piles = [312884470], h = 968709470 : " << minEatingSpeed(piles, 968709470) << std::endl;
+
+    std::vector<int> times = {1,2,3};
+    std::cout << "2187. Minimum Time to Complete Trips : time = [1,2,3], totalTrips = 5 : " << minimumTime(times, 5) << std::endl;
 
     return 0;
 }
