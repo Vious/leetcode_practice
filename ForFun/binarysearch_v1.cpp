@@ -240,6 +240,83 @@ long long minimumTime(vector<int>& time, int totalTrips) {
     return right + 1;
 }
 
+/* 2861. Maximum Number of Alloys */
+int maxNumberOfAlloys(int n, int k, int budget, vector<vector<int>>& composition, vector<int>& stock, vector<int>& cost) {
+    int result = 0;
+    int mx = ranges::min(stock) + budget;
+    for (auto &comp : composition) {
+        auto canMake = [&] (long long num) -> bool {
+            long long tmpSum = 0;
+            for (int i = 0; i < n; i++) {
+                if (stock[i] < comp[i] * num) {
+                    tmpSum += (comp[i] * num - stock[i]) * cost[i];
+                    if (tmpSum > budget) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        };
+        int left = result, right = mx + 1;
+        while(left <= right) {
+            int mid = left + (right - left ) / 2;
+            if (canMake(mid)) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        result = std::max(result, left - 1);
+    }
+    return result;
+}
+
+/* 2439. Minimize Maximum of Array */
+bool isRightLimit(vector<int>& nums, int limit) {
+    long long extra = 0;
+    for (int i = nums.size() - 1; i > 0; i--) {
+        extra = std::max(extra + nums[i] - limit, 0ll);
+    }
+    return nums[0] + extra <= limit;
+}
+int minimizeArrayValue(vector<int>& nums) {
+    int left = 0, right = ranges::max(nums);
+    while(left <= right) {
+        int mid = left + (right - left) / 2;
+        if (isRightLimit(nums, mid)) {
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return right + 1;
+}
+
+/* 2517. Maximum Tastiness of Candy Basket */
+int maximumTastiness(vector<int>& price, int k) {
+    ranges::sort(price);
+    auto checkDistance = [&](int dist) -> int {
+        int cnt = 1, pre = price[0];
+        for (int p : price) {
+            if (p >= pre + dist) {
+                cnt++;
+                pre = p;
+            }
+        }
+        return cnt;
+    };
+    int left = 0, right = (price.back() - price[0]) / (k - 1) + 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (checkDistance(mid) >= k) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return left - 1;
+}
+
 int main()
 {
     std::vector<int> spells = {5, 1, 3}, potions = {1, 2, 3, 4, 5};
@@ -264,6 +341,14 @@ int main()
 
     std::vector<int> times = {1,2,3};
     std::cout << "2187. Minimum Time to Complete Trips : time = [1,2,3], totalTrips = 5 : " << minimumTime(times, 5) << std::endl;
+
+
+    std::vector<int> nums = {3,7,1,6};
+    std::cout << "2439. Minimize Maximum of Array : nums = [3,7,1,6] : " << minimizeArrayValue(nums) << std::endl;
+
+    std::vector<int> nums1 = {13,13,20,0,8,9,9};
+    std::cout << "2439. Minimize Maximum of Array : nums = [13,13,20,0,8,9,9] : " << minimizeArrayValue(nums1) << std::endl;
+
 
     return 0;
 }
