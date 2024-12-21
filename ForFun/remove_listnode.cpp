@@ -108,10 +108,13 @@ ListNode* modifiedList(vector<int>& nums, ListNode* head) {
         hashMap[nums[i]]++;
     }
     ListNode *left = head, *right = head->next;
+    ListNode *tmpNode = nullptr;
     while(right) {
         if (hashMap[right->val]) {
+            tmpNode = right;
             right = right->next;
             left->next = right;
+            delete tmpNode;
         } else {
             left = left->next;
             right = right->next;
