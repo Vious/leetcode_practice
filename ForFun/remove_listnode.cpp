@@ -202,7 +202,14 @@ ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
     for (int i = 0; i < b; i++) {
         right = right->next;
     }
+    ListNode *torm = left->next;
     left->next = list2;
     node2end->next = right->next;
+    ListNode *tmp = nullptr;
+    while(torm != right) {
+        tmp = torm->next;
+        delete torm;
+        torm = tmp;
+    }
     return list1;
 }
