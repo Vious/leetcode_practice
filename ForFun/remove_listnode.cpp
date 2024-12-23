@@ -6,6 +6,7 @@
 #include <queue>
 #include <numeric>
 #include <list>
+#include <stack>
 
 using namespace std;
 /* Definition for singly-linked list. */ 
@@ -126,3 +127,82 @@ ListNode* modifiedList(vector<int>& nums, ListNode* head) {
     return head;
 }
 
+/* 206. Reverse Linked List */
+ListNode* reverseList(ListNode* head) {
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    }
+    ListNode *prev = nullptr, *pivot = head->next;
+    while(pivot != nullptr) {
+        head->next = prev;
+        prev = head;
+        head = pivot;
+        pivot = pivot->next;
+        head->next = prev;
+    }
+    return head;
+}
+
+/* 2487. Remove Nodes From Linked List */
+ListNode* removeNodes(ListNode* head){
+    /* v1, create new list */
+    /* 
+        std::stack<ListNode*> nodeStack;
+    ListNode *tmpNode = head;
+    while(tmpNode != nullptr) {
+        nodeStack.emplace(tmpNode);
+        tmpNode = tmpNode->next;
+    }
+    tmpNode = nodeStack.top();
+    nodeStack.pop();
+    ListNode *dummy = new ListNode(0, tmpNode);
+    int value = tmpNode->val;
+    ListNode *pivot = nullptr;
+    while(!nodeStack.empty()) {
+        tmpNode = nodeStack.top();
+        nodeStack.pop();
+        if (tmpNode->val < value) {
+            // delete tmpNode;
+            continue;
+        } else {
+            pivot = dummy->next;
+            dummy->next = tmpNode;
+            tmpNode->next = pivot;
+            value = tmpNode->val;
+        }
+    }
+    return dummy->next;
+     */
+    ListNode *revHead = reverseList(head);
+    ListNode *cur = revHead, *tmpNode = nullptr;
+    int value = cur->val;
+    while(cur->next != nullptr) {
+        if (value > cur->next->val) {
+            tmpNode = cur->next;
+            cur->next = cur->next->next;
+        } else {
+            cur = cur->next;
+            value = cur->val;
+        }
+    }
+    return reverseList(revHead);
+}
+
+/* 1669. Merge In Between Linked Lists */
+ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
+    ListNode *left = list1;
+    ListNode *right = list1;
+    ListNode *node2end = list2;
+    while(node2end->next != nullptr) {
+        node2end = node2end->next;
+    }
+    for (int i = 1; i < a; i++) {
+        left = left->next;
+    }
+    for (int i = 0; i < b; i++) {
+        right = right->next;
+    }
+    left->next = list2;
+    node2end->next = right->next;
+    return list1;
+}
