@@ -154,3 +154,117 @@ TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
     TreeNode *newRoot = dfsMerge(root1, root2);
     return newRoot;
 }
+
+/* 2331. Evaluate Boolean Binary Tree */
+bool evaluateTree(TreeNode* root) {
+    if (root->val <= 1) {
+        return root->val == 1;
+    }
+    if (root->val == 2) {
+        return evaluateTree(root->left) || evaluateTree(root->right);
+    } else {
+        return evaluateTree(root->left) && evaluateTree(root->right);
+    }
+}
+
+/* 508. Most Frequent Subtree Sum */
+vector<int> findFrequentTreeSum(TreeNode* root) {
+    std::vector<int> results;
+    std::unordered_map<int, int> freqMap;
+    std::function<int(TreeNode*)> freqSumDFS;
+    freqSumDFS = [&](TreeNode *node) -> int {
+        if (node == nullptr) {
+            return 0;
+        }
+        int leftSum = freqSumDFS(node->left);
+        int rightSum = freqSumDFS(node->right);
+        freqMap[leftSum + rightSum + node->val]++;
+        return leftSum + rightSum + node->val;
+    };
+    freqSumDFS(root);
+    std::priority_queue<std::pair<int, int>> pq;
+    for (auto pair : freqMap) {
+        pq.push(std::make_pair(pair.second, pair.first));
+    }
+    int freqNum = INT32_MIN;
+    while(!pq.empty()) {
+        auto pair = pq.top();
+        pq.pop();
+        if (pair.first >= freqNum) {
+            freqNum = pair.first;
+            results.push_back(pair.second);
+        } else {
+            break;
+        }
+    }
+    return results;
+}
+
+/* 1026. Maximum Difference Between Node and Ancestor */
+/* !!! find a smart solution */
+int maxAncestorDiff(TreeNode* root) {
+    int result = 0;
+    std::function<void(TreeNode*, int, int)> findMinDFS;
+    findMinDFS = [&](TreeNode *node, int maxV, int minV) {
+        if (node == nullptr) {
+            result = std::max(result, maxV - minV);
+            return;
+        }
+        maxV = std::max(maxV, node->val);
+        minV = std::min(minV, node->val);
+        findMinDFS(node->left, maxV, minV);
+        findMinDFS(node->right, maxV, minV);
+    };
+    findMinDFS(root, root->val, root->val);
+    return result;
+}
+
+/* 1372. Longest ZigZag Path in a Binary Tree */
+int longestZigZag(TreeNode* root) {
+    int result = 0;
+    std::function<void(TreeNode*, int, int)> zigzagDFS;
+    zigzagDFS = [&](TreeNode *node, int count, int direction) {
+        if (node == nullptr) {
+            return;
+        }
+        result = std::max(result, count);
+        if (direction == 0) {
+            zigzagDFS(node->right, count + 1, 1);
+            zigzagDFS(node->left, 1, 0);
+        } else {
+            zigzagDFS(node->left, count + 1, 0);
+            zigzagDFS(node->right, 1, 1);
+        }
+    };
+    zigzagDFS(root, 0, 0);
+    return result;
+}
+
+/* 1080. Insufficient Nodes in Root to Leaf Paths */
+/* could try return Treenode* */
+TreeNode* sufficientSubset(TreeNode* root, int limit) {
+    std::function<TreeNode*(TreeNode*, int)> dfs;
+    dfs = [&](TreeNode *node, int sum) -> TreeNode* {
+        if (node->left == nullptr && node->right == nullptr) {
+            sum += node->val;
+            if (sum < limit) {
+                return nullptr;
+            } else {
+                return node;
+            }
+        }
+        if (node->left) {
+            node->left = dfs(node->left, sum + node->val);
+        } 
+        if (node->right) {
+            node->right = dfs(node->right, sum + node->val);
+        }
+        return node->left || node->right ? node : nullptr;
+    };
+    dfs(root, 0);
+    if (root->left == root->right && root->val < limit) {
+        return nullptr;
+    }
+
+    return root;
+}
