@@ -103,4 +103,54 @@ bool isUnivalTree(TreeNode* root) {
     return uniDFS(root);
 }
 
-/*  */
+/* 951. Flip Equivalent Binary Trees */
+bool flipEquiv(TreeNode* root1, TreeNode* root2) {
+    std::function<bool(TreeNode*, TreeNode*)> flipDFSCheck;
+    flipDFSCheck = [&](TreeNode *p, TreeNode *q) -> bool {
+        if (p == nullptr || q == nullptr) {
+            return p == q;
+        }
+        // check swap and non-swap
+        if (p->val != q->val) {
+            return false;
+        }
+        bool swap = flipDFSCheck(p->left, q->right) && flipDFSCheck(p->right, q->left);
+        bool nonswap = flipDFSCheck(p->left, q->left) && flipDFSCheck(p->right, q->right);
+        return (swap || nonswap);
+    };
+    return flipDFSCheck(root1, root2);
+}
+
+/* 226. Invert Binary Tree */
+/* !!! mirror */
+TreeNode* invertTree(TreeNode* root) {
+    if (root == nullptr) {
+        return nullptr;
+    }
+    TreeNode *left = invertTree(root->left);
+    TreeNode *right = invertTree(root->right);
+    root->left = right;
+    root->right = left;
+    return root;
+}
+
+/* 617. Merge Two Binary Trees */
+TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+    if (root1 == nullptr || root2 == nullptr) {
+        return root1 == nullptr ? root2 : root1;
+    }
+    std::function<TreeNode*(TreeNode*, TreeNode*)> dfsMerge;
+    dfsMerge = [&](TreeNode *node1, TreeNode *node2) -> TreeNode* {
+        if (node1 == nullptr || node2 == nullptr) {
+            return node1 == nullptr ? node2 : node1;
+        }
+        node1->val += node2->val;
+        TreeNode *leftTree = dfsMerge(node1->left, node2->left);
+        TreeNode *rightTree = dfsMerge(node1->right, node2->right);
+        node1->left = leftTree;
+        node1->right = rightTree;
+        return node1;
+    };
+    TreeNode *newRoot = dfsMerge(root1, root2);
+    return newRoot;
+}
