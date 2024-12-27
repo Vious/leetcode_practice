@@ -262,7 +262,7 @@ TreeNode* sufficientSubset(TreeNode* root, int limit) {
         return node->left || node->right ? node : nullptr;
     };
     dfs(root, 0);
-    if (root->left == root->right && root->val < limit) {
+    if (root && root->left == root->right && root->val < limit) {
         return nullptr;
     }
 
