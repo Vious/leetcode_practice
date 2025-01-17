@@ -121,5 +121,64 @@ TreeNode* lcaDeepestLeaves(TreeNode* root) {
 
 /* 2096. Step-By-Step Directions From a Binary Tree Node to Another */
 string getDirections(TreeNode* root, int startValue, int destValue) {
-    
+    std::string result;
+    std::function<TreeNode*(TreeNode*, int, int)> postDFS = [&](TreeNode *node, int p1, int q1) {
+        if (node == nullptr || node->val == p1 || node->val == q1) {
+            return node;
+        }
+        auto left = postDFS(node->left, p1, q1);
+        auto right = postDFS(node->right, p1, q1);
+        if (left && right) {
+            return node;
+        } else if (left) {
+            return left;
+        } else {
+            return right;
+        }
+    };
+    auto lcaNode = postDFS(root, startValue, destValue);
+    std::function<bool(TreeNode*, int)> findStartVal = [&](TreeNode *node, int p1) -> bool {
+        if (node == nullptr) {
+            return false;
+        }
+        if (node->val == p1) {
+            return true;
+        }
+        auto left = findStartVal(node->left, p1);
+        if (left) {
+            result += "U";
+            return left;
+        }
+        auto right = findStartVal(node->right, p1);
+        if (right) {
+            result += "U";
+            return right;
+        }
+        return false;
+    };
+    findStartVal(lcaNode, startValue);
+    std::string destStr;
+    std::function<bool(TreeNode*, int)> findEndVal = [&](TreeNode *node, int p1) -> bool {
+        if (node == nullptr) {
+            return false;
+        }
+        if (node->val == p1) {
+            return true;
+        }
+        auto left = findEndVal(node->left, p1);
+        if (left) {
+            destStr += "L";
+            return left;
+        }
+        auto right = findEndVal(node->right, p1);
+        if (right) {
+            destStr += "R";
+            return right;
+        }
+        return false;
+    };
+    findEndVal(lcaNode, destValue);
+    std::reverse(destStr.begin(), destStr.end());
+    result += destStr;
+    return result;
 }
