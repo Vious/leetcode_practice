@@ -187,13 +187,81 @@ vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
 }
 
 /* 784. Letter Case Permutation */
+/* !!! NO need a for loop */
 vector<string> letterCasePermutation(string s) {
-    
+    int size = s.size();
+    std::vector<std::string> results;
+    if (size == 0) {
+        return results;
+    }
+    std::function<void(std::string, int)> dfs = [&](std::string str, int depth) {
+        if (depth == size) {
+            results.emplace_back(str);
+            return;
+        }
+        int i = depth;
+        if (s[i] >= 'A' && s[i] <= 'Z' ) {
+            char lowerCh = std::tolower(s[i]);
+            dfs(str + lowerCh, i + 1);
+            dfs(str + s[i], i + 1);
+        } else if (s[i] >= 'a' && s[i] <= 'z') {
+            char upperCh = std::toupper(s[i]);
+            dfs(str + upperCh, i + 1);
+            dfs(str + s[i], i + 1);
+        } else {
+            dfs(str + s[i], i + 1);
+        }
+
+    };
+    dfs("", 0);
+    return results;
 }
 
+/* LCP 51. 烹饪料理 */
+int perfectMenu(vector<int>& materials, vector<vector<int>>& cookbooks, vector<vector<int>>& attribute, int limit) {
+    int result = -1, limitSum = 0;
+    int size = cookbooks.size();
+    int materSize = materials.size();
+    std::function<void(int, int)> calDFS = [&](int level, int sum) {
+        if (level == size) {
+            if (limitSum >= limit) {
+                result = std::max(result, sum);
+            }
+            return;
+        }
+        auto aBook = cookbooks[level];
+        bool canMake = true;
+        for (int i = 0; i < materSize; i++) {
+            if (materials[i] < aBook[i]) {
+                canMake = false;
+                break;
+            }
+        }
+        if (canMake) {
+            sum += attribute[level][0];
+            limitSum += attribute[level][1];
+            for (int i = 0; i < materSize; i++) {
+                materials[i] -= aBook[i];
+            }
+            calDFS(level + 1, sum);
+            sum -= attribute[level][0];
+            limitSum -= attribute[level][1];
+            for (int i = 0; i < materSize; i++) {
+                materials[i] += aBook[i];
+            }
+            calDFS(level + 1, sum);
+        } else {
+            calDFS(level + 1, sum);
+        }
+    };
+    calDFS(0, 0);
+    return result;
+}
+
+/*  */
+
+
 /* remaining:
-784. 字母大小写全排列 https://leetcode.cn/problems/letter-case-permutation/
-LCP 51. 烹饪料理 https://leetcode.cn/problems/UEcfPD/
 2397. 被列覆盖的最多行数 https://leetcode.cn/problems/maximum-rows-covered-by-columns/
 1239. 串联字符串的最大长度 https://leetcode.cn/problems/maximum-length-of-a-concatenated-string-with-unique-characters/
 2212. 射箭比赛中的最大得分 https://leetcode.cn/problems/maximum-points-in-an-archery-competition/
@@ -220,6 +288,19 @@ int main()
         }
         std::cout << "\n";
     }
+
+    std::cout << "Test 784. Letter Case Permutation s = a1b2" << std::endl;
+    auto res2 = letterCasePermutation("a1b2");
+    for (auto str : res2) {
+        std::cout << str << ", ";
+    } 
+    std::cout << std::endl;
+    std::cout << "Test 784. Letter Case Permutation s = 3z4" << std::endl;
+    auto res3 = letterCasePermutation("3z4");
+    for (auto str : res3) {
+        std::cout << str << ", ";
+    } 
+    std::cout << std::endl;
 
     return 0;
 }
