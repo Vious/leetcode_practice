@@ -258,11 +258,55 @@ int perfectMenu(vector<int>& materials, vector<vector<int>>& cookbooks, vector<v
     return result;
 }
 
-/*  */
+/* 2397. Maximum Rows Covered by Columns */
+int maximumRows(vector<vector<int>>& matrix, int numSelect) {
+    int m = matrix.size(), n = matrix[0].size();
+    int result = 0;
+    std::function<int(std::vector<int>)> cntCovered = [&](std::vector<int> cols) {
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            bool zeroFlag = true;
+            bool covFlag = true;
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 1) {
+                    zeroFlag = false;
+                    bool tmpFlag = false;
+                    for (auto val : cols) {
+                        if (val == j) {
+                            tmpFlag = true;
+                        }
+                    }
+                    if (tmpFlag == false) {
+                        covFlag = false;
+                        break;
+                    }
+                }
+            }
+            if (zeroFlag) {
+                ans++;
+            } else if (covFlag) {
+                ans++;
+            }
+        }
+        return ans;
+    };
+    std::function<void(int, std::vector<int>)> rowBacktrace = [&](int num, std::vector<int> cols) {
+        if (num == n || cols.size() == numSelect) {
+            int curCovered = cntCovered(cols);
+            result = std::max(result, curCovered);
+            return;
+        }
+        rowBacktrace(num + 1, cols);
+        cols.push_back(num);
+        rowBacktrace(num + 1, cols);
+    };
+    std::vector<int> selectCols;
+    rowBacktrace(0, selectCols);
+    return result;
+}
 
 
 /* remaining:
-2397. 被列覆盖的最多行数 https://leetcode.cn/problems/maximum-rows-covered-by-columns/
 1239. 串联字符串的最大长度 https://leetcode.cn/problems/maximum-length-of-a-concatenated-string-with-unique-characters/
 2212. 射箭比赛中的最大得分 https://leetcode.cn/problems/maximum-points-in-an-archery-competition/
 2698. 求一个整数的惩罚数 https://leetcode.cn/problems/find-the-punishment-number-of-an-integer/
@@ -301,6 +345,12 @@ int main()
         std::cout << str << ", ";
     } 
     std::cout << std::endl;
+
+    std::vector<std::vector<int>> matrix1 = {{0,0,1},{1,0,0},{0,0,0}};
+    std::vector<std::vector<int>> matrix2 = {{0,0,0},{1,0,1},{0,1,1},{0,0,1}};
+    std::cout << "Test 2397. Maximum Rows Covered by Columns: " << maximumRows(matrix1, 2) << std::endl;
+    std::cout << "Test 2397. Maximum Rows Covered by Columns: " << maximumRows(matrix2, 2) << std::endl;
+
 
     return 0;
 }
