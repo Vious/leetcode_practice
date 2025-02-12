@@ -305,9 +305,75 @@ int maximumRows(vector<vector<int>>& matrix, int numSelect) {
     return result;
 }
 
+/* 1239. Maximum Length of a Concatenated String with Unique Characters */
+int maxLength(vector<string>& arr) {
+    /* check duplicate logic could be replaced by hash or bits compression */
+    int size = arr.size();
+    int result = 0;
+    std::function<void(int, std::string)> dfs = [&](int num, std::string str) {
+        if (num == size) {
+            result = std::max(result, (int)str.size());
+            return;
+        }
+        bool unqFlag = true;
+        for (char ch : arr[num]) {
+            for (char s : str) {
+                if (ch == s) {
+                    unqFlag = false;
+                    break;
+                }
+            }
+        }
+        bool selfUniq = true;
+        for (int i = 0; i < arr[num].size(); i++) {
+            for (int j = i + 1; j < arr[num].size(); j++) {
+                if (arr[num][i] == arr[num][j]) {
+                    selfUniq = false;
+                    break;
+                }
+            }
+        }
+        if (!unqFlag || !selfUniq) {
+            dfs(num + 1, str);
+        } else {
+            dfs(num + 1, str);
+            dfs(num + 1, str + arr[num]);
+        }
+    };
+    dfs(0, "");
+    return result;
+}
+
+/* 2212. Maximum Points in an Archery Competition */
+vector<int> maximumBobPoints(int numArrows, vector<int>& aliceArrows) {
+    std::vector<int> result(12, 0);
+    int maxPoint = INT32_MIN;
+    std::vector<int> tmpTry(12, 0);
+    std::function<void(int, int, int)> tryDFS = [&](int num, int tmpSum, int remain) {
+        if (num == aliceArrows.size() || remain == 0) {
+            if (tmpSum > maxPoint) {
+                maxPoint = tmpSum;
+                // random add remain to a try
+                tmpTry[11] += remain;
+                result = tmpTry;
+                // tmpTry[11] -= remain;
+            }
+            return;
+        }
+        if (aliceArrows[num] < remain) {
+            tmpTry[num] = aliceArrows[num] + 1;
+            tryDFS(num + 1, tmpSum + num, remain - tmpTry[num]);
+            tmpTry[num] = 0;
+        }
+        tryDFS(num + 1, tmpSum, remain);
+    };
+    tryDFS(0, 0, numArrows);
+    return result;
+}
+
+/*  */
 
 /* remaining:
-1239. 串联字符串的最大长度 https://leetcode.cn/problems/maximum-length-of-a-concatenated-string-with-unique-characters/
 2212. 射箭比赛中的最大得分 https://leetcode.cn/problems/maximum-points-in-an-archery-competition/
 2698. 求一个整数的惩罚数 https://leetcode.cn/problems/find-the-punishment-number-of-an-integer/
 306. 累加数 https://leetcode.cn/problems/additive-number/
@@ -350,6 +416,7 @@ int main()
     std::vector<std::vector<int>> matrix2 = {{0,0,0},{1,0,1},{0,1,1},{0,0,1}};
     std::cout << "Test 2397. Maximum Rows Covered by Columns: " << maximumRows(matrix1, 2) << std::endl;
     std::cout << "Test 2397. Maximum Rows Covered by Columns: " << maximumRows(matrix2, 2) << std::endl;
+
 
 
     return 0;
