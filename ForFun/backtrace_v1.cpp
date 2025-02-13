@@ -371,11 +371,60 @@ vector<int> maximumBobPoints(int numArrows, vector<int>& aliceArrows) {
     return result;
 }
 
-/*  */
+/* 2698. Find the Punishment Number of an Integer */
+int punishmentNumber(int n) {
+    std::function<bool(std::vector<int>&, int, int, int, int)> dfsCheck = \
+        [&](std::vector<int>& digit, int left, int depth, int sum, int target) -> bool {
+            if (depth == digit.size()) {
+                if (left < depth) {
+                    int tmpSum = 0;
+                    for (int i = left; i < digit.size(); i++) {
+                        tmpSum = tmpSum * 10 + digit[i];
+                    }
+                    sum += tmpSum;
+                }
+                if (sum == target) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            int tmpSum = 0;
+            for (int i = left; i <= depth; i++) {
+                tmpSum = tmpSum * 10 + digit[i];
+            }
+            bool split = dfsCheck(digit, depth + 1, depth + 1, sum + tmpSum, target);
+            bool notSplit = dfsCheck(digit, left, depth + 1, sum, target);
+            return split || notSplit;
+    };
+    std::vector<int> digits;
+    int result = 0;
+    for (int i = 1; i <= n; i++) {
+        int val = i * i;
+        digits.clear();
+        while(val > 0) {
+            digits.push_back(val % 10);
+            val /= 10;
+        }
+        std::reverse(digits.begin(), digits.end());
+        if (dfsCheck(digits, 0, 0, 0, i)) {
+            result += i * i;
+        }
+    }
+    return result;
+}
+
+/* 306. Additive Number */
+bool isAdditiveNumber(string num) {
+
+}
+
+/* 93. Restore IP Addresses */
+vector<string> restoreIpAddresses(string s) {
+
+}
 
 /* remaining:
-2212. 射箭比赛中的最大得分 https://leetcode.cn/problems/maximum-points-in-an-archery-competition/
-2698. 求一个整数的惩罚数 https://leetcode.cn/problems/find-the-punishment-number-of-an-integer/
 306. 累加数 https://leetcode.cn/problems/additive-number/
 93. 复原 IP 地址 https://leetcode.cn/problems/restore-ip-addresses/
  */
@@ -417,6 +466,7 @@ int main()
     std::cout << "Test 2397. Maximum Rows Covered by Columns: " << maximumRows(matrix1, 2) << std::endl;
     std::cout << "Test 2397. Maximum Rows Covered by Columns: " << maximumRows(matrix2, 2) << std::endl;
 
+    std::cout << "Test 2698. Find the Punishment Number of an Integern, n = 10 : " << punishmentNumber(10) << std::endl;
 
 
     return 0;
