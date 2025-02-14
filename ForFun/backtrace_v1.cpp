@@ -416,18 +416,79 @@ int punishmentNumber(int n) {
 
 /* 306. Additive Number */
 bool isAdditiveNumber(string num) {
-
+    /* learned from deepseek, very good!!! */
+    int size = num.size();
+    std::function<std::string(std::string, std::string)> addString = [](std::string num1, std::string num2) {
+        std::string result;
+        int carry = 0;
+        int i = num1.length() - 1, j = num2.length() - 1;
+        while (i >= 0 || j >= 0 || carry) {
+            int digit1 = (i >= 0) ? num1[i--] - '0' : 0;
+            int digit2 = (j >= 0) ? num2[j--] - '0' : 0;
+            int sum = digit1 + digit2 + carry;
+            carry = sum / 10;
+            result.push_back((sum % 10) + '0');
+        }
+        std::reverse(result.begin(), result.end());
+        return result;
+    };
+    std::function<bool(std::string, std::string, std::string)> checkValid = 
+    [&](std::string num1, std::string num2, std::string remain) {
+        if (remain.empty()) {
+            return true;
+        }
+        std::string sum = addString(num1, num2);
+        if (sum == remain.substr(0, sum.size())) {
+            return checkValid(num2, sum, remain.substr(sum.size()));
+        }
+        return false;
+    };
+    for (int i = 1; i <= size / 2; i++) {
+        for (int j = 1; j <= (size - i) / 2; j++) {
+            std::string num1Str = num.substr(0, i);
+            std::string num2Str = num.substr(i, j);
+            if ((num1Str.size() > 1 && num1Str[0] == '0') || (num2Str.size() > 1 && num2Str[0] == '0')) {
+                if(num1Str.size() > 1 && num1Str[0] == '0') {
+                    break;
+                }
+                continue;
+            }
+            if (checkValid(num1Str, num2Str, num.substr(i + j))) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 /* 93. Restore IP Addresses */
-vector<string> restoreIpAddresses(string s) {
-
+bool isValid(std::string part) {
+    if (part.size() > 1 && part[0] == '0') return false;
+    if (part.size() > 3 || part.empty()) return false;
+    int num = std::stoi(part);
+    return num >= 0 && num <= 255;
 }
 
-/* remaining:
-306. 累加数 https://leetcode.cn/problems/additive-number/
-93. 复原 IP 地址 https://leetcode.cn/problems/restore-ip-addresses/
- */
+void backtrace(std::string &str, int depth, int num, std::string curStr, std::vector<std::string> &results) {
+    if (num == 4) {
+        if (depth == str.size()) {
+            results.emplace_back(curStr);
+        }
+        return;
+    }
+    for (int i = 1; i <= 3 && i + depth <= str.size(); i++) {
+        std::string tmpStr = str.substr(depth, i);
+        if (isValid(tmpStr)) {
+            backtrace(str, depth + i, num + 1, curStr + (num == 0 ? "" : ".") + tmpStr, results);
+        }
+    }
+}
+vector<string> restoreIpAddresses(string s) {
+    std::vector<std::string> results;
+    backtrace(s, 0, 0, "", results);
+    return results;
+}
+
 
 int main()
 {
