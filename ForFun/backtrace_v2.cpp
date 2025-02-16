@@ -6,7 +6,7 @@
 #include <queue>
 #include <numeric>
 #include <set>
-
+#include <stack>
 
 /* 
 v2 : combination type backtracking, cutting edge
@@ -89,52 +89,64 @@ vector<string> generateParenthesis(int n) {
 }
 
 /* 301. Remove Invalid Parentheses */
+/* need to find a better solution */
 vector<string> removeInvalidParentheses(string s){
     std::vector<std::string> results;
     int leftCnt = 0, rightCnt = 0;
     int size = s.size();
     std::set<std::string> uniSet;
+    std::stack<char> myStack;
     std::string tmpStr = "";
+    int validLength = 0;
     for (int i = 0; i < size; i++) {
         if (s[i] == '(') {
             leftCnt++;
+            myStack.push(s[i]);
         } else if (s[i] == ')'){
             rightCnt++;
+            if (!myStack.empty()) {
+                myStack.pop();
+                validLength++;
+            }
         } else {
             tmpStr += s[i];
         }
     }
-    int validLength = std::min(leftCnt, rightCnt);
     /* needs to fix bugs */
     std::function<void(int, int, int, std::string)> dfsRemove = [&](int left, int right, int depth, std::string curStr) {
         if (depth == size) {
-            if (right == left && right > 0) {
+            if (right == left && right == validLength) {
                 uniSet.insert(curStr);
             }
             return;
         }
-        if (left <= right) {
-            if (s[depth] == '(') {
-                dfsRemove(left + 1, right, depth + 1, curStr + s[depth]);
-            } else if (s[depth] == ')') {
-                dfsRemove(left, right, depth + 1, curStr);
-            } else {
-                dfsRemove(left, right, depth + 1, curStr + s[depth]);
+        if (right == validLength && left == right) {
+            for (int i = depth; i < size; i++) {
+                if (s[i] != '(' && s[i] != ')') {
+                    curStr += s[i];
+                }
             }
+            uniSet.insert(curStr);
+            return;
+        }
+        if (s[depth] != '(' && s[depth] != ')') {
+            dfsRemove(left, right, depth + 1, curStr + s[depth]);
         } else {
             if (s[depth] == '(') {
                 dfsRemove(left + 1, right, depth + 1, curStr + s[depth]);
                 dfsRemove(left, right, depth + 1, curStr);
-            } else if (s[depth] == ')') {
-                dfsRemove(left, right + 1, depth + 1, curStr + s[depth]);
-                dfsRemove(left, right, depth + 1, curStr);
             } else {
-                dfsRemove(left, right, depth + 1, curStr + s[depth]);
+                if (left > right) {
+                    dfsRemove(left, right + 1, depth + 1, curStr + s[depth]);
+                    dfsRemove(left, right, depth + 1, curStr);
+                } else {
+                    dfsRemove(left, right, depth + 1, curStr);
+                }
             }
         }
     };
     dfsRemove(0, 0, 0, "");
-    if (uniSet.empty()) {
+    if (uniSet.empty() || validLength == 0) {
         results.push_back(tmpStr);
     } else {
         for (auto iter = uniSet.begin(); iter != uniSet.end(); iter++) {
@@ -183,11 +195,24 @@ int main()
 
     std::cout << "Test 301. Remove Invalid Parentheses s = )()(: " << std::endl;
     auto res2 = removeInvalidParentheses(")()(");
-    for (auto vec : res2) {
-        for (auto str : vec) {
-            std::cout << str << ", ";
-        }
-        std::cout << std::endl;
+    for (auto str : res2) {
+        std::cout << str << " ";
     }
+    std::cout << std::endl;
+
+    std::cout << "Test 301. Remove Invalid Parentheses s = (()y: " << std::endl;
+    auto res3 = removeInvalidParentheses("(()y");
+    for (auto str : res3) {
+        std::cout << str << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Test 301. Remove Invalid Parentheses s = (((k()((: " << std::endl;
+    auto res4 = removeInvalidParentheses("(((k()((");
+    for (auto str : res4) {
+        std::cout << str << " ";
+    }
+    std::cout << std::endl;
+
     return 0;
 }
