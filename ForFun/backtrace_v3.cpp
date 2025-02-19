@@ -92,7 +92,27 @@ int totalNQueens(int n) {
 
 /* 357. Count Numbers with Unique Digits */
 int countNumbersWithUniqueDigits(int n) {
-    
+    int result = 0;
+    std::vector<int> dp(8 + 1, 0);
+    dp[0] = 1;
+    dp[1] = 9 + dp[0];
+    for (int i = 2; i <= n; i++) {
+        int tmpCalc = 1;
+        for (int j = 1; j <= i; j++) {
+            if (j <= 2) {
+                tmpCalc *= 9;
+            } else {
+                tmpCalc *= (10 - j + 1);
+            }
+        }
+        dp[i] = tmpCalc + dp[i - 1];
+    }
+    return dp[n];
+}
+
+/* 2850. Minimum Moves to Spread Stones Over Grid */
+int minimumMoves(vector<vector<int>>& grid) {
+
 }
 
 /* remaining:
