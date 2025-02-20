@@ -112,13 +112,33 @@ int countNumbersWithUniqueDigits(int n) {
 
 /* 2850. Minimum Moves to Spread Stones Over Grid */
 int minimumMoves(vector<vector<int>>& grid) {
+    int result = INT32_MAX;
+    std::vector<std::pair<int, int>> source;
+    std::vector<std::pair<int, int>> target;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (grid[i][j]) {
+                for (int k = 1; k < grid[i][j]; k++) {
+                    source.emplace_back(i, j);
+                }
+            } else {
+                target.emplace_back(i, j);
+            }
+        }
+    }
+    if (source.size() == 0) {
+        return 0;
+    }
+    do {
+        int total = 0;
+        for (int i = 0; i < source.size(); i++) {
+            total += std::abs(source[i].first - target[i].first) + std::abs(source[i].second - target[i].second);
+        }
+        result = std::min(total, result);
+    } while(std::next_permutation(source.begin(), source.end()));
 
+    return result;
 }
-
-/* remaining:
-357. 统计各位数字都不同的数字个数 https://leetcode.cn/problems/count-numbers-with-unique-digits/
-2850. 将石头分散到网格图的最少移动次数 https://leetcode.cn/problems/minimum-moves-to-spread-stones-over-grid/
- */
 
 int main()
 {
