@@ -44,8 +44,8 @@ int findTargetSumWays(vector<int>& nums, int target) {
     int size = nums.size() - 1;
     return dfs(size, target);
  */
-
-    int sum = std::accumulate(nums.begin(), nums.end(), 0);
+    /* solution 1: dp */
+/*     int sum = std::accumulate(nums.begin(), nums.end(), 0);
     target += sum;
     if (target < 0 || (target % 2 != 0)) {
         return 0;
@@ -64,6 +64,23 @@ int findTargetSumWays(vector<int>& nums, int target) {
         }
     }
     return dp[size][target];
+ */
+    /* solution 2: */
+    int sum = std::accumulate(nums.begin(), nums.end(), 0);
+    target += sum;
+    if (target < 0 || (target % 2 != 0)) {
+        return 0;
+    }
+    target /= 2;
+    int size = nums.size();
+    std::vector<int> dp(target + 1, 0);
+    dp[0] = 1;
+    for (int value : nums) {
+        for (int j = target; j >= value; j--) {
+            dp[j] += dp[j - value];
+        }
+    }
+    return dp[target];
 }
 
 /* remained:
