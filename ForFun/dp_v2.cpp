@@ -152,9 +152,32 @@ int lengthOfLongestSubsequence(vector<int>& nums, int target) {
     return result > 0 ? result : -1;
 }
 
+/* 416. Partition Equal Subset Sum */
+bool canPartition(vector<int>& nums) {
+    int sum = std::accumulate(nums.begin(), nums.end(), 0);
+    if (sum % 2 != 0) {
+        return false;
+    }
+    sum /= 2;
+    int size = nums.size();
+    std::vector<std::vector<int>> dp(size + 1, std::vector<int>(sum + 1, 0));
+    dp[0][0] = 1;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j <= sum; j++) {
+            if (j < nums[i]) {
+                dp[i + 1][j] = dp[i][j];
+            } else {
+                dp[i + 1][j] = dp[i][j] || dp[i][j - nums[i]];
+            }
+        }
+    }
+    return dp[size - 1][sum] == 1;
+}
+
+/*  */
+
 /*  */
 /* remained:
-416. 分割等和子集 https://leetcode.cn/problems/partition-equal-subset-sum/
 2787. 将一个数字表示成幂的和的方案数 https://leetcode.cn/problems/ways-to-express-an-integer-as-sum-of-powers/
 518. 零钱兑换 II https://leetcode.cn/problems/coin-change-ii/
 279. 完全平方数 https://leetcode.cn/problems/perfect-squares/
