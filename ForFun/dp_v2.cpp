@@ -150,6 +150,23 @@ int lengthOfLongestSubsequence(vector<int>& nums, int target) {
     };
     int result = dfs(size - 1, target);
     return result > 0 ? result : -1;
+    /* one array */
+    /* 
+            vector<int> f(target + 1, INT_MIN);
+        f[0] = 0;
+        int s = 0;
+        for (int x : nums) {
+            s = min(s + x, target);
+            for (int j = s; j >= x; j--) {
+                f[j] = max(f[j], f[j - x] + 1);
+            }
+        }
+        return f[target] > 0 ? f[target] : -1;
+        作者：灵茶山艾府
+        链接：https://leetcode.cn/problems/length-of-the-longest-subsequence-that-sums-to-target/solutions/2502839/mo-ban-qia-hao-zhuang-man-xing-0-1-bei-b-0nca/
+        来源：力扣（LeetCode）
+        著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+    */
 }
 
 /* 416. Partition Equal Subset Sum */
@@ -174,11 +191,13 @@ bool canPartition(vector<int>& nums) {
     return dp[size - 1][sum] == 1;
 }
 
-/*  */
+/* 2787. Ways to Express an Integer as Sum of Powers */
+int numberOfWays(int n, int x) {
+    
+}
 
 /*  */
 /* remained:
-2787. 将一个数字表示成幂的和的方案数 https://leetcode.cn/problems/ways-to-express-an-integer-as-sum-of-powers/
 518. 零钱兑换 II https://leetcode.cn/problems/coin-change-ii/
 279. 完全平方数 https://leetcode.cn/problems/perfect-squares/
  */
